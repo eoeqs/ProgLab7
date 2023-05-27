@@ -1,0 +1,1036 @@
+[
+  {
+    "name": "valera",
+    "ID": 1,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 2,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 3,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 131,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 15555,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 4,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 132,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 5,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 133,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 6,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 1222,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 111111,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 7,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 8,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 9,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 10,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 11,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 12,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 13,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 14,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 15,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 16,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 18,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 1555,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 17878,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 151,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 152,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 153,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 154,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 188888,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 155,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 1888,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 100,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 11111,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 1000,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 111,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 112,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 113,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 1777,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 177,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 114,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 178,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 1333,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 121,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 122,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 123,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  },
+  {
+    "name": "valera",
+    "ID": 188,
+    "position": "DEVELOPER",
+    "status": "REGULAR",
+    "salary": 123,
+    "creation_date": "2023-05-20",
+    "start_date": "3030-10-10",
+    "coordinates": {
+      "x": 12.0,
+      "y": 12.0
+    },
+    "organization": {
+      "org_name": "Wakanda",
+      "annual_turnover": 213,
+      "employee_count": 231,
+      "address": {
+        "zipCode": "civic",
+        "street": "honda"
+      }
+    }
+  }
+]

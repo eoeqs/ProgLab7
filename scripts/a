@@ -1,0 +1,14 @@
+count_by_position developer
+
+
+remove_lower_key 10
+
+filter_greater_than_organization
+Sapsan
+10000
+433
+
+Baka
+help
+min_by_status
+execute_script d
