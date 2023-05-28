@@ -2,7 +2,7 @@ package me.lab6.server.managers;
 
 
 
-import me.lab6.common.workerRelated.*;
+import me.lab6.common.models.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package me.lab6.common.workerRelated;
+package me.lab6.common.models;
 
 import org.jetbrains.annotations.NotNull;
 

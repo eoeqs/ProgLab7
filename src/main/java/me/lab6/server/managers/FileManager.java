@@ -6,7 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import me.lab6.server.exceptions.SameIDException;
 import me.lab6.server.json.*;
-import me.lab6.common.workerRelated.*;
+import me.lab6.common.models.*;
 
 
 import java.io.*;

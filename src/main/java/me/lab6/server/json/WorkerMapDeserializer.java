@@ -1,7 +1,7 @@
 package me.lab6.server.json;
 
 import com.google.gson.*;
-import me.lab6.common.workerRelated.Worker;
+import me.lab6.common.models.Worker;
 
 import java.lang.reflect.Type;
 import java.util.Map;

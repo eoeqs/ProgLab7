@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import me.lab6.common.workerRelated.Address;
+import me.lab6.common.models.Address;
 
 import java.lang.reflect.Type;
 

@@ -1,7 +1,7 @@
 package me.lab6.common.utility;
 
-import me.lab6.common.workerRelated.Position;
-import me.lab6.common.workerRelated.Status;
+import me.lab6.common.models.Position;
+import me.lab6.common.models.Status;
 
 import java.io.File;
 import java.time.LocalDate;

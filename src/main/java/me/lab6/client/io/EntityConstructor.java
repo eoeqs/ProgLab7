@@ -3,7 +3,7 @@ package me.lab6.client.io;
 import me.lab6.common.utility.DataType;
 import me.lab6.common.utility.Constraints;
 import me.lab6.common.utility.Validator;
-import me.lab6.common.workerRelated.*;
+import me.lab6.common.models.*;
 
 import java.time.LocalDate;
 import java.util.NoSuchElementException;

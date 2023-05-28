@@ -1,8 +1,8 @@
 package me.lab6.server.commands;
 
 import me.lab6.common.network.Response;
-import me.lab6.common.workerRelated.Organization;
-import me.lab6.common.workerRelated.Worker;
+import me.lab6.common.models.Organization;
+import me.lab6.common.models.Worker;
 import me.lab6.server.managers.CollectionManager;
 
 import java.util.List;

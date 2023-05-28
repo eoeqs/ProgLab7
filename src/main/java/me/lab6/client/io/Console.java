@@ -9,8 +9,8 @@ import me.lab6.common.network.Request;
 import me.lab6.common.network.Response;
 import me.lab6.common.utility.Messages;
 import me.lab6.common.utility.Validator;
-import me.lab6.common.workerRelated.Organization;
-import me.lab6.common.workerRelated.Worker;
+import me.lab6.common.models.Organization;
+import me.lab6.common.models.Worker;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

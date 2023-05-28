@@ -1,7 +1,7 @@
 package me.lab6.server;
 
 import com.google.gson.JsonParseException;
-import me.lab6.common.workerRelated.Worker;
+import me.lab6.common.models.Worker;
 import me.lab6.server.exceptions.IncorrectWorkerFieldException;
 import me.lab6.server.exceptions.SameIDException;
 import me.lab6.server.io.ServerConsole;
