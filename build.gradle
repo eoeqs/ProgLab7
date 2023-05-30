@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'www'
-version = '1.0-SNAPSHOT'
+version = 'yeah'
 
 repositories {
     mavenCentral()
@@ -19,8 +19,47 @@ dependencies {
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.5'
     implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.3.5'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.4'
+    implementation 'org.postgresql:postgresql:42.2.27'
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.register('serverBuild', Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.output) { include "**" }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes 'Main-Class': 'me.lab7.server.ServerMain'
+    }
+    destinationDirectory = file("$rootDir/jar")
+    archivesBaseName = "lab7server"
+    exclude ("scr/main/java/me/lab7/client/**")
+}
+
+tasks.register('clientBuild', Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.output) { include "**" }
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes 'Main-Class': 'me.lab7.client.ClientMain'
+    }
+    destinationDirectory = file("$rootDir/jar")
+    archivesBaseName = "lab7client"
+    exclude ("scr/main/java/me/lab7/server/**")
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
