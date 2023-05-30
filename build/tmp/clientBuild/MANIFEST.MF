@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: me.lab6.client.ClientMain
+Main-Class: me.lab7.client.ClientMain
 
