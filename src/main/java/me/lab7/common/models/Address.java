@@ -2,26 +2,44 @@ package me.lab7.common.models;
 
 import java.io.Serializable;
 
-/**
- * Represents an address with a street and a zip code.
- */
-public record Address(String street, String zipCode) implements Serializable {
-    /**
-     * Returns a string representation of the address in the format "(zipCode, street)".
-     *
-     * @return a string representation of the address
-     */
+public class Address implements Serializable {
+
+    private Long id;
+    private final String street;
+    private final String zipCode;
+    private int creatorId;
+
+    public Address(String street, String zipCode) {
+        this.street = street;
+        this.zipCode = zipCode;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public int getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(int creatorId) {
+        this.creatorId = creatorId;
+    }
+
     @Override
     public String toString() {
         return "(" + this.zipCode + ", " + this.street + ")";
     }
-
-    /**
-     * Compares this address to another object for equality.
-     *
-     * @param o the object to compare to
-     * @return true if the objects are equal, false otherwise
-     */
+    public String getStreet() {
+        return street;
+    }
+    public String getZipCode() {
+        return zipCode;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -29,5 +47,5 @@ public record Address(String street, String zipCode) implements Serializable {
         Address address = (Address) o;
         return street.equals(address.street) && zipCode.equals(address.zipCode);
     }
-
 }
+

@@ -1,34 +1,17 @@
 package me.lab7.server.managers;
 
-
-
 import me.lab7.common.models.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 
-/**
- * ColMan is a class that manages the collection of Worker objects. It stores the workerMap, which is a HashMap where the
- * keys are long values and the values are Worker objects, and the creationDate, which is a String value.
- */
 public record CollectionManager(HashMap<Long, Worker> workerMap) {
 
-    /**
-     * Getter method for the workerMap field.
-     *
-     * @return the HashMap where the keys are long values and the values are Worker objects.
-     */
     @Override
     public HashMap<Long, Worker> workerMap() {
         return workerMap;
     }
 
-    /**
-     * Replaces the Worker object with the given key in the workerMap with a new Worker object created through
-     * UIMan.createNewWorker method.
-     *
-     * @param worker the new Worker to replace the old one.
-     */
 
     public String add(Worker worker) {
         long key = worker.getId();
@@ -41,9 +24,9 @@ public record CollectionManager(HashMap<Long, Worker> workerMap) {
         Worker oldWorker = workerMap.get(key);
         workerMap.replace(key, worker);
         return "Old element under the key = " + key + ":\n" +
-                oldWorker + "\n" +
-                "was replaced by a new one:\n" +
-                worker + "\n";
+               oldWorker + "\n" +
+               "was replaced by a new one:\n" +
+               worker + "\n";
     }
 
     @Deprecated

@@ -2,46 +2,69 @@ package me.lab7.common.models;
 
 import java.io.Serializable;
 
-/**
- * Represents an organization with a full name, annual turnover, employees count, and postal address.
- * Implements the Comparable interface for sorting based on annual turnover, employees count, and full name.
- */
-public record Organization(String fullName, Integer annualTurnover, Long employeesCount,
-                           Address postalAddress) implements Comparable<Organization>, Serializable {
-    /**
-     * Returns a string representation of the organization in the format "fullName(annual_turnover=annualTurnover;
-     * employee_count=employeesCount; postal_address=postalAddress)".
-     *
-     * @return a string representation of the organization
-     */
+
+public class Organization implements Comparable<Organization>, Serializable {
+    private Long id;
+    private final String fullName;
+    private final Integer annualTurnover;
+    private final Long employeesCount;
+    private final Address postalAddress;
+    private int creatorId;
+
+    public Organization(String fullName, Integer annualTurnover, Long employeesCount, Address postalAddress) {
+        this.fullName = fullName;
+        this.annualTurnover = annualTurnover;
+        this.employeesCount = employeesCount;
+        this.postalAddress = postalAddress;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(int creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+    public Long getEmployeesCount() {
+        return employeesCount;
+    }
+    public Integer getAnnualTurnover() {
+        return annualTurnover;
+    }
+    public Address getPostalAddress() {
+        return postalAddress;
+    }
+
     @Override
     public String toString() {
         return this.fullName + "(annual_turnover=" + this.annualTurnover + "; employee_count=" + this.employeesCount +
-                "; postal_address=" + this.postalAddress + ")";
+               "; postal_address=" + this.postalAddress + ")";
     }
 
-    /**
-     * Compares this organization to another object for equality.
-     *
-     * @param o the object to compare to
-     * @return true if the objects are equal, false otherwise
-     */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization organization = (Organization) o;
         return fullName.equals(organization.fullName) && annualTurnover.equals(organization.annualTurnover) &&
-                employeesCount.equals(organization.employeesCount) && postalAddress.equals(organization.postalAddress);
+               employeesCount.equals(organization.employeesCount) && postalAddress.equals(organization.postalAddress);
     }
 
-    /**
-     * Compares this organization to another organization based on annual turnover, employees count, and full name.
-     *
-     * @param org the organization to compare to
-     * @return a negative integer, zero, or a positive integer as this organization is less than, equal to,
-     * or greater than the specified organization
-     */
+
     @Override
     public int compareTo(Organization org) {
         if (this.annualTurnover > org.annualTurnover) {
