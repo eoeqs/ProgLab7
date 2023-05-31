@@ -2,26 +2,47 @@ package me.lab7.common.models;
 
 import java.io.Serializable;
 
-/**
- * Represents coordinates with an x and y value.
- */
-public record Coordinates(double x, Double y) implements Serializable {
-    /**
-     * Returns a string representation of the coordinates in the format "(x, y)".
-     *
-     * @return a string representation of the coordinates
-     */
+public class Coordinates implements Serializable {
+    private Long id;
+    private final double x;
+    private final Double y;
+    private int creatorId;
+
+    public Coordinates(double x, Double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(int creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public Double getY() {
+        return y;
+    }
+
     @Override
+
     public String toString() {
         return "(" + this.x + ", " + this.y + ")";
     }
 
-    /**
-     * Compares this coordinates to another object for equality.
-     *
-     * @param o the object to compare to
-     * @return true if the objects are equal, false otherwise
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

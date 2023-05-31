@@ -11,7 +11,8 @@ import java.util.Objects;
  * coordinates, creation date, salary, start date, position, status, and organization.
  */
 public class Worker implements Comparable<Worker>, Serializable {
-    private final long id; // >0, auto-generated, unique
+
+    private long id; // >0, auto-generated, unique
     private String name; // not null, not empty
     private final Coordinates coordinates; // not null
     private final LocalDate creationDate; // not null, auto-generated
@@ -20,6 +21,7 @@ public class Worker implements Comparable<Worker>, Serializable {
     private final Position position; // can be null
     private final Status status; // can be null
     private final Organization organization; // can be null
+    private int creatorId;
 
     /**
      * Creates a new Worker object with the specified ID, name, coordinates, creation date, salary, start date, position,
@@ -48,6 +50,18 @@ public class Worker implements Comparable<Worker>, Serializable {
         this.organization = organization;
     }
 
+    public Worker(String name, Coordinates coordinates, LocalDate creationDate, int salary,
+                  LocalDate startDate, Position position, Status status, Organization organization) {
+        this.name = name;
+        this.coordinates = coordinates;
+        this.creationDate = creationDate;
+        this.salary = salary;
+        this.startDate = startDate;
+        this.position = position;
+        this.status = status;
+        this.organization = organization;
+    }
+
     /**
      * Returns the ID of the worker.
      *
@@ -62,8 +76,20 @@ public class Worker implements Comparable<Worker>, Serializable {
      *
      * @return the name of the worker
      */
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public int getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(int creatorId) {
+        this.creatorId = creatorId;
     }
 
     /**
@@ -148,15 +174,15 @@ public class Worker implements Comparable<Worker>, Serializable {
     @Override
     public String toString() {
         String one = name + " (ID: " + id + ", position: " + position + ", status: " + status + ", salary: " + salary +
-                ", creation date: " + creationDate + ", start date: " + startDate + ", coordinates: " + coordinates +
-                ")\n";
+                     ", creation date: " + creationDate + ", start date: " + startDate + ", coordinates: " + coordinates +
+                     ")\n";
         String two;
         if (organization == null) {
             two = "Isn't a member of an organization right now.";
         } else {
-            two = "Works at " + organization.fullName() + " (annual turnover: " + organization.annualTurnover() +
-                    ", employee count: " + organization.employeesCount() + ", postal address: " +
-                    organization.postalAddress() + ")";
+            two = "Works at " + organization.getFullName() + " (annual turnover: " + organization.getAnnualTurnover() +
+                  ", employee count: " + organization.getEmployeesCount() + ", postal address: " +
+                  organization.getPostalAddress() + ")";
         }
         return one + two;
     }
@@ -174,9 +200,9 @@ public class Worker implements Comparable<Worker>, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Worker worker = (Worker) o;
         return id == worker.id && salary == worker.salary && name.equals(worker.name) &&
-                coordinates.equals(worker.coordinates) && creationDate.equals(worker.creationDate) &&
-                startDate.equals(worker.startDate) && position == worker.position &&
-                status == worker.status && Objects.equals(organization, worker.organization);
+               coordinates.equals(worker.coordinates) && creationDate.equals(worker.creationDate) &&
+               startDate.equals(worker.startDate) && position == worker.position &&
+               status == worker.status && Objects.equals(organization, worker.organization);
     }
 
     /**
