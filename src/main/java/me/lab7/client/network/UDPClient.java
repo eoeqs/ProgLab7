@@ -93,7 +93,7 @@ public class UDPClient {
         int totalChunks = Integer.MAX_VALUE;
         int chunkCount = 0;
         do {
-            if (chunks.stream().mapToInt(b -> b.length).sum() > 65000) {
+            if (chunks.stream().mapToInt(b -> b.length).sum() > 262000) {
                 throw new TooBigDataException();
             }
             byte[] chunk = receivePacket();
