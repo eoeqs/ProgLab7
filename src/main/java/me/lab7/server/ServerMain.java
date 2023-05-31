@@ -8,7 +8,7 @@ import me.lab7.server.io.ServerConsole;
 import me.lab7.server.managers.CollectionManager;
 import me.lab7.server.managers.CommandManager;
 import me.lab7.server.managers.FileManager;
-import me.lab7.server.network.UDPServer;
+import me.lab7.server.network.UDPServerOld;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class ServerMain {
             Scanner scanner = new Scanner(System.in);
             ServerConsole serverConsole = new ServerConsole(scanner, commandManager);
             Runtime.getRuntime().addShutdownHook(new Thread(serverConsole::exit));
-            UDPServer server = new UDPServer(InetAddress.getLocalHost(), port, commandManager, serverConsole);
+            UDPServerOld server = new UDPServerOld(InetAddress.getLocalHost(), port, commandManager, serverConsole);
             server.run();
         } catch (UnknownHostException | SocketException e) {
             System.out.println("Failed to launch the server using local host.\n");

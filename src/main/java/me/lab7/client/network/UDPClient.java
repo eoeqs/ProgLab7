@@ -16,7 +16,9 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class UDPClient {
 
@@ -87,19 +89,22 @@ public class UDPClient {
     }
 
     private byte[] receiveData() throws IOException, TooBigDataException {
-        boolean received = false;
-        byte[] result = new byte[0];
-        while (!received) {
-            if (result.length > 65000) {
+        List<byte[]> chunks = new ArrayList<>();
+        int totalChunks = Integer.MAX_VALUE;
+        int chunkCount = 0;
+        do {
+            if (chunks.stream().mapToInt(b -> b.length).sum() > 65000) {
                 throw new TooBigDataException();
             }
-            byte[] data = receivePacket();
-            if (data[data.length - 1] == 1) {
-                received = true;
+            byte[] chunk = receivePacket();
+            chunkCount++;
+            int number = chunk[0];
+            if (chunk[chunk.length - 1] == 1) {
+                totalChunks = number;
             }
-            result = Bytes.concat(result, Arrays.copyOf(data, data.length - 1));
-        }
-        return result;
+            chunks.add(number, Arrays.copyOfRange(chunk, 1, chunk.length - 1));
+        } while (chunkCount != totalChunks);
+        return ChunkOrganizer.reassembleChunks(chunks);
     }
 
     private byte[] sendAndReceiveData(byte[] data) throws IOException, TooBigDataException {

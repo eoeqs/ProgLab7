@@ -1,6 +1,7 @@
 package me.lab7.common.utility;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ChunkOrganizer {
 
@@ -12,6 +13,17 @@ public class ChunkOrganizer {
             start += dataSize;
         }
         return chunks;
+    }
+
+    public static byte[] reassembleChunks(List<byte[]> chunks) {
+        int totalSize = chunks.stream().mapToInt(b -> b.length).sum();
+        byte[] data = new byte[totalSize];
+        int position = 0;
+        for (byte[] chunk : chunks) {
+            System.arraycopy(chunk, 0, data, position, chunk.length);
+            position += chunk.length;
+        }
+        return data;
     }
 
 }
