@@ -25,7 +25,7 @@ public class ServerMain {
         prepareAndStart(new HashMap<>());
     }
 
-    public static void startDB() {
+    private static void startDB() {
         ConnectionManager connectionManager = new ConnectionManager(
                 Configuration.getDbUrl(),
                 Configuration.getDbLogin(),
@@ -62,8 +62,8 @@ public class ServerMain {
             Scanner scanner = new Scanner(System.in);
             ServerConsole serverConsole = new ServerConsole(scanner, commandManager);
             // Runtime.getRuntime().addShutdownHook(new Thread(serverConsole::exit));
-            UDPServer server = new UDPServer(InetAddress.getLocalHost(), port, commandManager, serverConsole);
-            server.run();
+            UDPServer server = new UDPServer(InetAddress.getLocalHost(), port, commandManager);
+            server.start();
         } catch (UnknownHostException | SocketException e) {
             System.out.println("Failed to launch the server using local host.\n");
         }
