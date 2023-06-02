@@ -7,8 +7,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 public class PasswordManager {
+
     private static final String algorithmName = "MD5";
     private static final int hashLength = 96;
+
     public static String getSalt() {
         return Integer.toHexString(new Random().nextInt());
     }
@@ -20,17 +22,12 @@ public class PasswordManager {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
         byte[] hash = md.digest((salt + password).getBytes(StandardCharsets.UTF_8));
-
         BigInteger bigInt = new BigInteger(1, hash);
-
         StringBuilder strHash = new StringBuilder(bigInt.toString(16));
-
         while (strHash.length() < hashLength) {
             strHash.insert(0, "0");
         }
-
         return strHash.toString();
     }
 }

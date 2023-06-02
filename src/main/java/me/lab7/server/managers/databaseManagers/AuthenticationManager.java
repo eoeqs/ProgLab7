@@ -8,49 +8,43 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 
 public class AuthenticationManager {
+
     private static final Logger logger = (Logger) LoggerFactory.getLogger(AuthenticationManager.class);
     private static final UserDatabaseManager databaseManager = new UserDatabaseManager(
             new ConnectionManager(Configuration.getDbUrl(), Configuration.getDbLogin(), Configuration.getDbPass()));
 
-    public static boolean checkUserName(String name) {
-        return databaseManager.checkUserName(name);
-    }
-
-    public static boolean checkUserPass(String name, String password) {
-        return databaseManager.checkUserPass(name, password);
-    }
-
-    public static boolean register(User user) {
+    public static int logIn(User user) {
         try {
-            if (!databaseManager.checkUserName(user.getName())) {
-                // если имя не занято, то создаём пользователя
-                int id = databaseManager.addUser(user);
-                user.setId(id);
-                logger.info("Registered successfully.");
-                return true;
+            if (!databaseManager.userIsRegistered(user.getName())) {
+                logger.info("Failed to log in, not not yet registered.");
+                return 1;
+            } else {
+                if (!databaseManager.checkPassword(user.getName(), user.getPassword())) {
+                    logger.info("Failed to log in, wrong password.");
+                    return 2;
+                }
             }
+            logger.info(user.getName() + " logged in.");
+            return 0;
         } catch (SQLException e) {
-            logger.error("There was an error while registration.");
-            return false;
+            logger.error("Failed to log in, SQL error: " + e);
+            return 3;
         }
-        return false;
     }
 
-    public static boolean auth(User user) {
+    public static int register(User user) {
         try {
-            if (databaseManager.checkUserPass(user.getName(), user.getPassword())) {
-                //вход успешный
-                int id = databaseManager.getUserId(user.getName());
-
-                user.setId(id);
-
-                logger.info("Authenticated successfully.");
-                return true;
+            if (databaseManager.userIsRegistered(user.getName())) {
+                logger.info("Failed to register, this user is already registered.");
+                return 1;
             }
+            databaseManager.insertUser(user);
+            logger.info("Registered user: " + user);
+            return 0;
         } catch (SQLException e) {
-            logger.error("There was an error authenticating.");
-            return false;
+            logger.error("Failed to register, SQL error: " + e);
+            return 2;
         }
-        return false;
     }
+
 }

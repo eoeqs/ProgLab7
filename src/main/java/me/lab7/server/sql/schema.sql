@@ -11,7 +11,7 @@ create type pos as enum (
 create table if not exists users (
     id serial primary key,
     name varchar(64) unique not null,
-    password_digest varchar(64) not null,
+    password_digest char(96) not null,
     salt varchar(64) not null
 );
 

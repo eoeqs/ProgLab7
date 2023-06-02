@@ -6,6 +6,7 @@ import me.lab7.server.managers.CommandManager;
 import org.slf4j.LoggerFactory;
 
 import java.net.*;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UDPServer {
@@ -15,7 +16,7 @@ public class UDPServer {
     private final DatagramSocket socket;
     private final InetSocketAddress address;
     private final CommandManager commandManager;
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(UDPServerOld.class);
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(UDPServer.class);
 
     public UDPServer(InetAddress address, int port, CommandManager commandManager) throws SocketException {
         logger.setLevel(Level.INFO);
@@ -25,29 +26,25 @@ public class UDPServer {
         socket.setReuseAddress(true);
     }
 
-    private void connect(SocketAddress address) throws SocketException {
-        socket.connect(address);
-    }
-
-    private void disconnect() {
-        socket.disconnect();
-    }
-
-    private void close() {
-        socket.close();
-    }
-
     public void start() {
         System.out.println("Server started.");
         logger.info("Server started at " + address);
         Thread requestThread = new Thread(new RequestManager(socket, packageSize, dataSize, commandManager));
         requestThread.start();
         while (true) {
-            if (new Scanner(System.in).nextLine().trim().equalsIgnoreCase("exit")) {
+            try {
+                if (new Scanner(System.in).nextLine().trim().equalsIgnoreCase("exit")) {
+                    System.exit(0);
+                } else {
+                    System.out.println("You can shut down the server by typing 'exit'.");
+                }
+            } catch (NoSuchElementException e) {
                 System.exit(0);
-            } else {
-                System.out.println("You can shut down the server by typing 'exit'.");
             }
         }
+    }
+
+    public static void shutdown() {
+        System.out.println("Shutting down...");
     }
 }

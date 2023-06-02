@@ -100,7 +100,7 @@ public class UDPClient {
             chunkCount++;
             int number = chunk[0];
             if (chunk[chunk.length - 1] == 1) {
-                totalChunks = number;
+                totalChunks = number + 1;
             }
             chunks.add(number, Arrays.copyOfRange(chunk, 1, chunk.length - 1));
         } while (chunkCount != totalChunks);

@@ -77,7 +77,8 @@ public class Console {
     }
 
     private boolean register() {
-        System.out.println("Enter your username and password.\n");
+        System.out.println("Enter your username and password.");
+        System.out.println("Username must not be longer than 64 characters.");
         System.out.println(Messages.passwordRequirements());
         try {
             while (true) {
@@ -86,17 +87,21 @@ public class Console {
                 if (input.length != 2) {
                     System.out.println("Please, enter only your username and password as a single string.");
                 } else {
-                    String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_.])[a-zA-Z0-9-_.]{8,64}$";
-                    String password = input[1];
-                    if (!Pattern.matches(regex, password)) {
-                        System.out.println("Your password doesn't meet the requirements. Please, use another.");
+                    if (input[0].length() > 64) {
+                        System.out.println("Your username is too long. Please, use another.");
                     } else {
-                        AuthResponse response = tryToAuthorize(false, input[0], input[1]);
-                        if (response == null) {
-                            return false;
+                        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_.])[a-zA-Z0-9-_.]{8,64}$";
+                        String password = input[1];
+                        if (!Pattern.matches(regex, password)) {
+                            System.out.println("Your password doesn't meet the requirements. Please, use another.");
                         } else {
-                            System.out.println(response.message());
-                            return response.success();
+                            AuthResponse response = tryToAuthorize(false, input[0], input[1]);
+                            if (response == null) {
+                                return false;
+                            } else {
+                                System.out.println(response.message());
+                                return response.success();
+                            }
                         }
                     }
                 }

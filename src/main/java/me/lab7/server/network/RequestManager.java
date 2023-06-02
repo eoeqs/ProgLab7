@@ -126,7 +126,7 @@ public class RequestManager implements Runnable {
         AuthResponse response = null;
         try {
             ForkJoinPool forkJoinPool = new ForkJoinPool();
-            response = forkJoinPool.invoke(new AuthTask());
+            response = forkJoinPool.invoke(new AuthTask(request));
         } catch (Exception e) {
             logger.error("Failed to authorize: " + e.getMessage());
         }

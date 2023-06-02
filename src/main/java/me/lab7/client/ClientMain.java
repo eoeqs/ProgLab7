@@ -8,7 +8,7 @@ import me.lab7.common.utility.Messages;
 import java.net.InetAddress;
 
 public class ClientMain {
-    private static final int PORT = 49320;
+    private static final int PORT = 5928;
     public static void main(String[] args) {
         try {
             var client = new UDPClient(InetAddress.getLocalHost(), PORT);

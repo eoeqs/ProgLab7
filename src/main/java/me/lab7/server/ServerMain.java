@@ -18,11 +18,15 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class ServerMain {
-    private final static int port = 49320;
+    private final static int port = 5928;
 
     public static void main(String[] args) {
-        getCredentials();
-        prepareAndStart(new HashMap<>());
+        try {
+            getCredentials();
+            prepareAndStart(new HashMap<>());
+        } catch (Exception e) {
+            System.out.println("Shutting down...");
+        }
     }
 
     private static void startDB() {
@@ -41,13 +45,17 @@ public class ServerMain {
         }
     }
 
-    private static void getCredentials() {
+    private static void getCredentials() throws Exception {
         String fileName = System.getenv("credentials");
+        if (fileName == null) {
+            System.out.println("The variable 'credentials' is null.");
+            throw new Exception();
+        }
         String text = FileManager.getTextFromFile(fileName);
         String[] strings = text.split("\n");
         if (strings.length != 3) {
-            System.out.println("File \"credentials.txt\" is not correct.");
-            return;
+            System.out.println("Credentials contents are incorrect.");
+            throw new Exception();
         }
         Configuration.setDbUrl(strings[0].trim());
         Configuration.setDbLogin(strings[1].trim());
@@ -59,10 +67,8 @@ public class ServerMain {
         CommandManager commandManager = new CommandManager(collectionManager);
         startDB();
         try {
-            Scanner scanner = new Scanner(System.in);
-            ServerConsole serverConsole = new ServerConsole(scanner, commandManager);
-            // Runtime.getRuntime().addShutdownHook(new Thread(serverConsole::exit));
             UDPServer server = new UDPServer(InetAddress.getLocalHost(), port, commandManager);
+            Runtime.getRuntime().addShutdownHook(new Thread(UDPServer::shutdown));
             server.start();
         } catch (UnknownHostException | SocketException e) {
             System.out.println("Failed to launch the server using local host.\n");
