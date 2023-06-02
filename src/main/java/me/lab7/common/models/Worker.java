@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Worker implements Comparable<Worker>, Serializable {
 
     private long id; // >0, auto-generated, unique
-    private String name; // not null, not empty
+    private final String name; // not null, not empty
     private final Coordinates coordinates; // not null
     private final LocalDate creationDate; // not null, auto-generated
     private final int salary; // > 0
@@ -21,7 +21,7 @@ public class Worker implements Comparable<Worker>, Serializable {
     private final Position position; // can be null
     private final Status status; // can be null
     private final Organization organization; // can be null
-    private long creatorId;
+    private final String creatorName;
 
     /**
      * Creates a new Worker object with the specified ID, name, coordinates, creation date, salary, start date, position,
@@ -38,7 +38,7 @@ public class Worker implements Comparable<Worker>, Serializable {
      * @param organization the organization that the worker belongs to
      */
     public Worker(long id, String name, Coordinates coordinates, LocalDate creationDate, int salary,
-                  LocalDate startDate, Position position, Status status, Organization organization, long creatorId) {
+                  LocalDate startDate, Position position, Status status, Organization organization, String creatorName) {
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;
@@ -48,7 +48,7 @@ public class Worker implements Comparable<Worker>, Serializable {
         this.position = position;
         this.status = status;
         this.organization = organization;
-        this.creatorId = creatorId;
+        this.creatorName = creatorName;
     }
 
     /**
@@ -71,23 +71,6 @@ public class Worker implements Comparable<Worker>, Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public long getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(int creatorId) {
-        this.creatorId = creatorId;
-    }
-
-    /**
-     * Sets the name of the worker to the specified value.
-     *
-     * @param name the new name of the worker
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**

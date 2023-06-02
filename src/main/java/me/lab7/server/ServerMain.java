@@ -2,7 +2,6 @@ package me.lab7.server;
 
 import me.lab7.common.models.Worker;
 
-import me.lab7.server.io.ServerConsole;
 import me.lab7.server.managers.CollectionManager;
 import me.lab7.server.managers.CommandManager;
 import me.lab7.server.managers.FileManager;
@@ -15,7 +14,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class ServerMain {
     private final static int port = 5928;

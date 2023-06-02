@@ -12,6 +12,7 @@ import java.util.Map;
 public class WorkerDatabaseManager {
 
     private final ConnectionManager connectionManager;
+    private final UserDatabaseManager
 
     public WorkerDatabaseManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -137,6 +138,7 @@ public class WorkerDatabaseManager {
             organization = null;
         }
         long creatorId = resultSet.getLong("w_creator_id");
+
         return new Worker(id, name, coordinates, creationDate, salary, startDate, position, status, organization, creatorId);
     }
 

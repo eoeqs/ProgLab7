@@ -47,9 +47,9 @@ public class UserDatabaseManager {
 
     public void insertUser(User user) throws SQLException {
         Connection connection = getConnection();
-        String name = user.getName();
+        String name = user.name();
         String salt = PasswordManager.getSalt();
-        String passwordDigest = PasswordManager.getHash(user.getPassword(), salt);
+        String passwordDigest = PasswordManager.getHash(user.password(), salt);
         PreparedStatement statement = connection.prepareStatement(
                 "insert into users(u_name, u_password_digest, u_salt) values (?, ?, ?);");
         statement.setString(1, name);

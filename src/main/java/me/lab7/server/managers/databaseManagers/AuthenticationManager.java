@@ -15,16 +15,16 @@ public class AuthenticationManager {
 
     public static int logIn(User user) {
         try {
-            if (!databaseManager.userIsRegistered(user.getName())) {
+            if (!databaseManager.userIsRegistered(user.name())) {
                 logger.info("Failed to log in, not not yet registered.");
                 return 1;
             } else {
-                if (!databaseManager.checkPassword(user.getName(), user.getPassword())) {
+                if (!databaseManager.checkPassword(user.name(), user.password())) {
                     logger.info("Failed to log in, wrong password.");
                     return 2;
                 }
             }
-            logger.info(user.getName() + " logged in.");
+            logger.info(user.name() + " logged in.");
             return 0;
         } catch (SQLException e) {
             logger.error("Failed to log in, SQL error: " + e);
@@ -34,7 +34,7 @@ public class AuthenticationManager {
 
     public static int register(User user) {
         try {
-            if (databaseManager.userIsRegistered(user.getName())) {
+            if (databaseManager.userIsRegistered(user.name())) {
                 logger.info("Failed to register, this user is already registered.");
                 return 1;
             }
