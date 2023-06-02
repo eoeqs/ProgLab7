@@ -108,7 +108,8 @@ public class EntityConstructor {
         } else {
             organization = constructOrganization();
         }
-        return new Worker(id, name, coordinates, LocalDate.now(), salary, startDate, position, status, organization);
+        long placeholder = 0;
+        return new Worker(id, name, coordinates, LocalDate.now(), salary, startDate, position, status, organization, placeholder);
     }
 
 }

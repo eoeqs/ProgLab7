@@ -3,316 +3,297 @@ package me.lab7.server.managers.databaseManagers;
 import me.lab7.common.models.*;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WorkerDatabaseManager {
-    private final ConnectionManager connectionManager;
 
-    public WorkerDatabaseManager(String url, String login, String password) {
-        connectionManager = new ConnectionManager(url, login, password);
-    }
+    private final ConnectionManager connectionManager;
 
     public WorkerDatabaseManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 
-    public Connection getConnection() throws SQLException {
+    private Connection getConnection() throws SQLException {
         return connectionManager.getConnection();
     }
 
-    public Map<Long, Address> loadAddresses() throws SQLException {
-        Connection connection = getConnection();
-
-        PreparedStatement statement = connection.prepareStatement("select * from addresses");
-        ResultSet result = statement.executeQuery();
-
-        Map<Long, Address> addresses = new HashMap<>();
-        while (result.next()) {
-            Long id = result.getLong("id");
-            Address address = new Address(
-                    result.getString("street"),
-                    result.getString("zip_code")
-            );
-            address.setId(id);
-            address.setCreatorId(result.getInt("creator_id"));
-
-            addresses.put(id, address);
-        }
-        connection.close();
-        return addresses;
+    private long insertCoordinates(Connection connection, Coordinates coordinates, long creatorId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                insert into coordinates (c_x, c_y, c_creator_id)
+                values (?, ?, ?)
+                returning c_id
+                """);
+        statement.setDouble(1, coordinates.getX());
+        statement.setDouble(2, coordinates.getY());
+        statement.setLong(3, creatorId);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getLong(1);
     }
 
-    public Map<Long, Organization> loadOrganizations() throws SQLException {
-        Map<Long, Address> addresses = loadAddresses();
-        Connection connection = getConnection();
-
-        PreparedStatement statement = connection.prepareStatement("select * from organizations");
-        ResultSet result = statement.executeQuery();
-
-        Map<Long, Organization> organizations = new HashMap<>();
-        while (result.next()) {
-            Long id = result.getLong("id");
-            long addressId = result.getLong("address_id");
-            Address address = addresses.get(addressId);
-            Organization organization = new Organization(
-                    result.getString("full_name"),
-                    result.getInt("annual_turnover"),
-                    result.getLong("employees_count"),
-                    address
-            );
-            organization.setId(id);
-            organization.setCreatorId(result.getInt("creator_id"));
-            organizations.put(id, organization);
-        }
-        connection.close();
-        return organizations;
-    }
-
-    public Map<Long, Coordinates> loadCoordinates() throws SQLException {
-        Connection connection = getConnection();
-
-        PreparedStatement statement = connection.prepareStatement("select * from coordinates");
-        ResultSet result = statement.executeQuery();
-
-        Map<Long, Coordinates> coordinates = new HashMap<>();
-        while (result.next()) {
-            Long id = result.getLong("id");
-            Coordinates coordinate = new Coordinates(
-                    result.getDouble("x"),
-                    result.getDouble("y")
-            );
-            coordinate.setId(id);
-            coordinate.setCreatorId(result.getInt("creator_id"));
-
-            coordinates.put(id, coordinate);
-        }
-        connection.close();
-        return coordinates;
-    }
-
-    public Map<Long, Worker> loadWorkers() throws SQLException {
-        Map<Long, Organization> organizations = loadOrganizations();
-        Map<Long, Coordinates> coordinates = loadCoordinates();
-
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement("select * from workers");
-        ResultSet result = statement.executeQuery();
-
-        HashMap<Long, Worker> workers = new HashMap<>();
-        while (result.next()) {
-            int organizationId = result.getInt("organization_id");
-            Organization organization = organizations.get(organizationId);
-            int coordinateId = result.getInt("coordinates_id");
-            Coordinates coordinate = coordinates.get(coordinateId);
-            Integer salary = result.getInt("salary");
-            if (result.wasNull()) salary = null;
-            long id = result.getLong("id");
-            Worker worker = new Worker(
-                    result.getString("name"),
-                    coordinate,
-                    result.getTimestamp("creation_date").toLocalDateTime().toLocalDate(),
-                    salary,
-                    result.getTimestamp("start_date").toLocalDateTime().toLocalDate(),
-                    result.getString("pos") == null ? null : Position.valueOf(result.getString("pos")),
-                    result.getString("status") == null ? null : Status.valueOf(result.getString("status")),
-                    organization
-            );
-            worker.setId(id);
-            worker.setCreatorId(result.getInt("creator_id"));
-            workers.put(id, worker);
-        }
-        connection.close();
-        return workers;
-    }
-
-    public Long addAddress(User user, Address address) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "insert into addresses(street, zip_code, creator_id)" +
-                "values (?,?, (select id from users where users.name=?))" +
-                "returning id");
-        if (address.getStreet() == null) statement.setNull(1, Types.VARCHAR);
-        else statement.setString(1, address.getStreet());
+    private long insertAddress(Connection connection, Address address, long creatorId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                insert into addresses (a_street, a_zip_code, a_creator_id)
+                values (?, ?, ?)
+                returning a_id
+                """);
+        statement.setString(1, address.getStreet());
         statement.setString(2, address.getZipCode());
-        statement.setString(3, user.getName());
-        ResultSet result = statement.executeQuery();
-        connection.close();
-
-        result.next();
-
-        return result.getLong(1);
+        statement.setLong(3, creatorId);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getLong(1);
     }
 
-    public Long addOrganization(User user, Organization organization) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "insert into organizations(full_name, annual_turnover, employees_count, address_id, creator_id) " +
-                "values (?,?,?,?,(select id from users where users.name=?))" +
-                "returning id"
-        );
+    private long insertOrganization(Connection connection, Organization organization, long creatorId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                insert into organizations (o_full_name, o_annual_turnover, o_employees_count, o_address_id, o_creator_id)
+                values (?, ?, ?, ?, ?)
+                returning o_id
+                """);
+        Address address = organization.getPostalAddress();
+        long addressId = insertAddress(connection, address, creatorId);
         statement.setString(1, organization.getFullName());
         statement.setInt(2, organization.getAnnualTurnover());
         statement.setLong(3, organization.getEmployeesCount());
-
-        Long address_id = addAddress(user, organization.getPostalAddress());
-        organization.getPostalAddress().setId(address_id);
-
-        statement.setLong(4, address_id);
-        statement.setString(5, user.getName());
-        ResultSet result = statement.executeQuery();
-        connection.close();
-
-        result.next();
-
-        return result.getLong(1);
+        statement.setLong(4, addressId);
+        statement.setLong(5, creatorId);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getLong(1);
     }
 
-    public Long addCoordinates(User user, Coordinates coordinates) throws SQLException {
+    public void insertWorker(Worker worker, long creatorId) throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "insert into coordinates(x, y, creator_id)" +
-                "values (?,?,(select id from users where users.name = ?))" +
-                "returning id");
-        if (coordinates.getX() == 0) statement.setNull(1, Types.DOUBLE);
-        else statement.setDouble(1, coordinates.getX());
-        statement.setDouble(2, coordinates.getY());
-        statement.setString(3, user.getName());
-        ResultSet result = statement.executeQuery();
-        connection.close();
-
-        result.next();
-
-        return result.getLong(1);
-    }
-
-    public Long addWorker(User user, Worker worker) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "insert into workers(name, coordinates_id, salary, start_date, pos, status, organization_id, creator_id)" +
-                "values (?,?,?,?,?,?,?,(select id from users where users.name = ?))" +
-                "returning id");
-
+        PreparedStatement statement = connection.prepareStatement("""
+                insert into workers (w_name, w_coordinates_id, w_creation_date, w_salary, w_start_date,
+                w_pos, w_status, w_organization_id, w_creator_id)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """);
+        Coordinates coordinates = worker.getCoordinates();
+        long coordinatesId = insertCoordinates(connection, coordinates, creatorId);
+        Organization organization = worker.getOrganization();
+        long organizationId = insertOrganization(connection, organization, creatorId);
         statement.setString(1, worker.getName());
-
-        Long coordinates_id = addCoordinates(user, worker.getCoordinates());
-        worker.getCoordinates().setId(coordinates_id);
-        statement.setLong(2, coordinates_id);
-
-        if (worker.getSalary() == 0) statement.setNull(3, Types.INTEGER);
-        else statement.setInt(3, worker.getSalary());
-
-        statement.setDate(4, Date.valueOf(worker.getStartDate()));
-
-        if (worker.getPosition() == null) statement.setNull(5, Types.VARCHAR);
-        else statement.setString(5, worker.getPosition().toString());
-
-        if (worker.getStatus() == null) statement.setNull(6, Types.VARCHAR);
-        else statement.setString(6, worker.getStatus().toString());
-
-        Long organization_id = addOrganization(user, worker.getOrganization());
-        worker.getOrganization().setId(organization_id);
-        statement.setLong(7, organization_id);
-        statement.setString(8, user.getName());
-
-        ResultSet result = statement.executeQuery();
+        statement.setLong(2, coordinatesId);
+        statement.setDate(3, Date.valueOf(worker.getCreationDate()));
+        statement.setInt(4, worker.getSalary());
+        statement.setDate(5, Date.valueOf(worker.getStartDate()));
+        String position = worker.getPosition() == null ? null : String.valueOf(worker.getPosition());
+        statement.setString(6, position);
+        String status = worker.getStatus() == null ? null : String.valueOf(worker.getStatus());
+        statement.setString(7, status);
+        statement.setLong(8, organizationId);
+        statement.setLong(9, creatorId);
+        statement.execute();
         connection.close();
-
-        result.next();
-
-        return result.getLong(1);
     }
 
-    public Long updateAddress(User user, Long addressId, Address newAddress) throws SQLException {
+    public Map<Long, Worker> getAllWorkers() throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "update addresses set " +
-                "street = ?, zip_code = ?" +
-                "where id = ? and creator_id = ?"
-        );
-        if (newAddress.getStreet() == null) statement.setNull(1, Types.VARCHAR);
-        else statement.setString(1, newAddress.getStreet());
-        statement.setString(2, newAddress.getZipCode());
+        PreparedStatement statement = connection.prepareStatement("""
+                select * from workers w
+                left join coordinates c on w.w_coordinates_id = c.c_id
+                left join organizations o on w.w_organization_id = o.o_id
+                left join addresses a on o.o_address_id = a.a_id;
+                """);
+        ResultSet resultSet = statement.executeQuery();
+        connection.close();
+        Map<Long, Worker> workerMap = new HashMap<>();
+        while (resultSet.next()) {
+            Worker worker = assembleWorker(resultSet);
+            workerMap.put(worker.getId(), worker);
+        }
+        return workerMap;
+    }
+
+    private Worker assembleWorker(ResultSet resultSet) throws SQLException {
+        long id = resultSet.getLong("w_id");
+        String name = resultSet.getString("w_name");
+        double x = resultSet.getDouble("c_x");
+        Double y = resultSet.getDouble("c_y");
+        Coordinates coordinates = new Coordinates(x, y);
+        LocalDate creationDate = resultSet.getDate("w_creation_date").toLocalDate();
+        int salary = resultSet.getInt("w_salary");
+        LocalDate startDate = resultSet.getDate("w_start_date").toLocalDate();
+        Position position = resultSet.getString("w_pos") == null ? null
+                : Position.valueOf(resultSet.getString("w_pos"));
+        Status status = resultSet.getString("w_status") == null ? null
+                : Status.valueOf(resultSet.getString("w_status"));
+        String orgName = resultSet.getString("o_full_name");
+        Organization organization;
+        if (resultSet.getLong("w_organization_id") == 0) {
+            int annualTurnover = resultSet.getInt("o_annual_turnover");
+            long employeeCount = resultSet.getLong("o_employee_count");
+            String street = resultSet.getString("a_street");
+            String zipCode = resultSet.getString("a_zip_code");
+            Address address = new Address(street, zipCode);
+            organization = new Organization(orgName, annualTurnover, employeeCount, address);
+        } else {
+            organization = null;
+        }
+        long creatorId = resultSet.getLong("w_creator_id");
+        return new Worker(id, name, coordinates, creationDate, salary, startDate, position, status, organization, creatorId);
+    }
+
+    private void deleteWorker(Connection connection, long id) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                select w_organization_id from workers
+                where w_id = ?
+                """);
+        statement.setLong(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        long organizationId = resultSet.getLong(1);
+        statement = connection.prepareStatement("""
+                delete from coordinates
+                where c_id in
+                (select c_id from coordinates join workers
+                on c_id = w_coordinates_id and w_id = ?)
+                """);
+        statement.setLong(1, id);
+        statement.execute();
+        statement = connection.prepareStatement("""
+                delete from addresses
+                where a_id in
+                (select a_id from addresses join organizations
+                on a_id = organizations.o_address_id and o_id = ?)
+                """);
+        statement.setLong(1, organizationId);
+        statement.execute();
+    }
+
+    private void deleteWorker(Connection connection, List<Long> ids) throws SQLException {
+        for (long l : ids) {
+            deleteWorker(connection, l);
+        }
+    }
+
+    public void deleteWorker(long id) throws SQLException {
+        Connection connection = getConnection();
+        deleteWorker(connection, id);
+    }
+
+    public void deleteLowerWorkers(long id, long creatorId) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement("""
+                select w_id from workers
+                where w_id < ? and w_creator_id = ?
+                """);
+        statement.setLong(1, id);
+        statement.setLong(2, creatorId);
+        ResultSet resultSet = statement.executeQuery();
+        deleteWorker(connection, getIdList(resultSet));
+        connection.close();
+    }
+
+    public void deleteOwnedWorkers(long creatorId) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement("""
+                select w_id from workers
+                where w_creator_id = ?
+                """);
+        statement.setLong(1, creatorId);
+        ResultSet resultSet = statement.executeQuery();
+        deleteWorker(connection, getIdList(resultSet));
+        connection.close();
+    }
+
+    private List<Long> getIdList(ResultSet resultSet) throws SQLException {
+        List<Long> ids = new ArrayList<>();
+        while(resultSet.next()) {
+            ids.add(resultSet.getLong(1));
+        }
+        return ids;
+    }
+
+    private void updateAddress(Connection connection, long addressId, Address address) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                update addresses
+                set a_street = ?, a_zip_code = ?
+                where a_id = ?
+                """);
+        statement.setString(1, address.getStreet());
+        statement.setString(2, address.getZipCode());
         statement.setLong(3, addressId);
-        statement.setLong(4, user.getId());
-
-        Long res = (long) statement.executeUpdate();
-        connection.close();
-        return res;
+        statement.execute();
     }
 
-    public Long updateOrganization(User user, Long organizationId, Organization newOrganization) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "update organizations set full_name = ?, annual_turnover = ?," +
-                "employees_count = ?, address_id = (select address_id from organizations where id = ?), " +
-                " id = ? and creator_id = ?"
-        );
-        statement.setString(1, newOrganization.getFullName());
-        statement.setInt(2, newOrganization.getAnnualTurnover());
-        statement.setLong(3, newOrganization.getEmployeesCount());
-
-        updateAddress(user, organizationId, newOrganization.getPostalAddress());
-        statement.setLong(4, organizationId);
-        statement.setLong(5, organizationId);
-        statement.setLong(6, user.getId());
-
-        Long res = (long) statement.executeUpdate();
-        connection.close();
-        return res;
-    }
-
-    public Long updateCoordinates(User user, Long coordinatesId, Coordinates newCoordinates) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "update coordinates set x = ?, y = ? " +
-                "where id = ? and creator_id = ? "
-        );
-        if (newCoordinates.getX() == 0) statement.setNull(1, Types.DOUBLE);
-        else statement.setDouble(1, newCoordinates.getX());
-        statement.setDouble(2, newCoordinates.getY());
+    private void updateCoordinates(Connection connection, long coordinatesId, Coordinates coordinates) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                update coordinates
+                set c_x = ?, c_y = ?
+                where c_id = ?
+                """);
+        statement.setDouble(1, coordinates.getX());
+        statement.setDouble(2, coordinates.getY());
         statement.setLong(3, coordinatesId);
-        statement.setLong(4, user.getId());
-
-        Long res = (long) statement.executeUpdate();
-        connection.close();
-        return res;
+        statement.execute();
     }
 
-    public Long updateWorker(User user, Long workerId, Worker newWorker) throws SQLException {
+    private void updateOrganization(Connection connection, long organizationId, Organization organization) throws SQLException {
+        Address address = organization.getPostalAddress();
+        PreparedStatement statement = connection.prepareStatement("""
+                select a_id from addresses join organizations
+                on a_id = o_address_id and o_id = ?
+                """);
+        statement.setLong(1, organizationId);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        long addressId = resultSet.getLong(1);
+        updateAddress(connection, addressId, address);
+
+        statement = connection.prepareStatement("""
+                update organizations
+                set o_full_name = ?, o_annual_turnover = ?, o_employees_count = ?
+                """);
+        statement.setString(1, organization.getFullName());
+        statement.setInt(2, organization.getAnnualTurnover());
+        statement.setLong(3, organization.getEmployeesCount());
+        statement.execute();
+    }
+
+    public void updateWorker(long id, Worker worker) throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "update workers set " +
-                "name = ?, coordinates_id = (select coordinates_id from workers where id = ?)," +
-                "salary = ?, start_date= ?, pos = ?, status= ?, organization_id = (select organization_id from workers where id = ?)" +
-                "where id = ? and creator_id = ?"
-        );
-        statement.setString(1, newWorker.getName());
+        Organization organization = worker.getOrganization();
+        PreparedStatement statement = connection.prepareStatement("""
+                select o_id from organizations join workers
+                on o_id = workers.w_organization_id and w_id = ?
+                """);
+        statement.setLong(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        long orgId = resultSet.getLong(1);
+        updateOrganization(connection, orgId, organization);
 
-        updateCoordinates(user, workerId, newWorker.getCoordinates());
-        statement.setLong(2, workerId);
+        Coordinates coordinates = worker.getCoordinates();
+        statement = connection.prepareStatement("""
+                select c_id from coordinates join workers
+                on c_id = workers.w_coordinates_id and w_id = ?
+                """);
+        statement.setLong(1, id);
+        resultSet = statement.executeQuery();
+        resultSet.next();
+        long coordinatesId = resultSet.getLong(1);
+        updateCoordinates(connection, coordinatesId, coordinates);
 
-        if (newWorker.getSalary() == 0) statement.setNull(3, Types.INTEGER);
-        else statement.setInt(3, newWorker.getSalary());
-
-        statement.setDate(4, Date.valueOf(newWorker.getStartDate()));
-
-        if (newWorker.getPosition() == null) statement.setNull(5, Types.VARCHAR);
-        else statement.setString(5, newWorker.getPosition().toString());
-
-        if (newWorker.getStatus() == null) statement.setNull(6, Types.VARCHAR);
-        else statement.setString(6, newWorker.getStatus().toString());
-
-        updateOrganization(user, workerId, newWorker.getOrganization());
-        statement.setLong(7, workerId);
-
-        statement.setLong(8, workerId);
-        statement.setInt(9, user.getId());
-
-        Long res = (long) statement.executeUpdate();
+        statement = connection.prepareStatement("""
+                update workers
+                set w_name = ?, w_salary = ?, w_start_date = ?, w_pos = ?, w_status = ?
+                """);
+        statement.setString(1, worker.getName());
+        statement.setInt(2, worker.getSalary());
+        statement.setDate(3, Date.valueOf(worker.getStartDate()));
+        String pos = worker.getPosition() == null ? null : String.valueOf(worker.getPosition());
+        statement.setString(4, pos);
+        String status = worker.getStatus() == null ? null : String.valueOf(worker.getStatus());
+        statement.setString(5, status);
+        statement.execute();
         connection.close();
-        return res;
     }
+
 }
-
-

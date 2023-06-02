@@ -71,7 +71,8 @@ public class ExecuteScript implements Command {
         if (!scanner.nextLine().isBlank()) {
             org = buildOrganization(scanner);
         }
-        return new Worker(key, name, new Coordinates(x, y), LocalDate.now(), salary, startDate, pos, status, org);
+        long placeholder = 0;
+        return new Worker(key, name, new Coordinates(x, y), LocalDate.now(), salary, startDate, pos, status, org, placeholder);
     }
 
     private Organization buildOrganization(Scanner scanner) {

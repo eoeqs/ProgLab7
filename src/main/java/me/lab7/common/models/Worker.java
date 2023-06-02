@@ -21,7 +21,7 @@ public class Worker implements Comparable<Worker>, Serializable {
     private final Position position; // can be null
     private final Status status; // can be null
     private final Organization organization; // can be null
-    private int creatorId;
+    private long creatorId;
 
     /**
      * Creates a new Worker object with the specified ID, name, coordinates, creation date, salary, start date, position,
@@ -38,7 +38,7 @@ public class Worker implements Comparable<Worker>, Serializable {
      * @param organization the organization that the worker belongs to
      */
     public Worker(long id, String name, Coordinates coordinates, LocalDate creationDate, int salary,
-                  LocalDate startDate, Position position, Status status, Organization organization) {
+                  LocalDate startDate, Position position, Status status, Organization organization, long creatorId) {
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;
@@ -48,18 +48,7 @@ public class Worker implements Comparable<Worker>, Serializable {
         this.position = position;
         this.status = status;
         this.organization = organization;
-    }
-
-    public Worker(String name, Coordinates coordinates, LocalDate creationDate, int salary,
-                  LocalDate startDate, Position position, Status status, Organization organization) {
-        this.name = name;
-        this.coordinates = coordinates;
-        this.creationDate = creationDate;
-        this.salary = salary;
-        this.startDate = startDate;
-        this.position = position;
-        this.status = status;
-        this.organization = organization;
+        this.creatorId = creatorId;
     }
 
     /**
@@ -84,7 +73,7 @@ public class Worker implements Comparable<Worker>, Serializable {
         return name;
     }
 
-    public int getCreatorId() {
+    public long getCreatorId() {
         return creatorId;
     }
 

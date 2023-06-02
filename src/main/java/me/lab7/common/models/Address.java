@@ -7,7 +7,7 @@ public class Address implements Serializable {
     private Long id;
     private final String street;
     private final String zipCode;
-    private int creatorId;
+    private long creatorId;
 
     public Address(String street, String zipCode) {
         this.street = street;
@@ -22,7 +22,7 @@ public class Address implements Serializable {
         return id;
     }
 
-    public int getCreatorId() {
+    public long getCreatorId() {
         return creatorId;
     }
 

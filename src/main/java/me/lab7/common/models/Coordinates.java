@@ -6,7 +6,7 @@ public class Coordinates implements Serializable {
     private Long id;
     private final double x;
     private final Double y;
-    private int creatorId;
+    private long creatorId;
 
     public Coordinates(double x, Double y) {
         this.x = x;
@@ -21,7 +21,7 @@ public class Coordinates implements Serializable {
         this.id = id;
     }
 
-    public int getCreatorId() {
+    public long getCreatorId() {
         return creatorId;
     }
 

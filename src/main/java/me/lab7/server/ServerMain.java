@@ -38,7 +38,7 @@ public class ServerMain {
         WorkerDatabaseManager databaseManager = new WorkerDatabaseManager(connectionManager);
         HashMap<Long, Worker> workerMap = null;
         try {
-            workerMap = (HashMap<Long, Worker>) databaseManager.loadWorkers();
+            workerMap = (HashMap<Long, Worker>) databaseManager.getAllWorkers();
         } catch (SQLException e) {
             System.out.println("Failed to read collection from database.");
             System.exit(1);

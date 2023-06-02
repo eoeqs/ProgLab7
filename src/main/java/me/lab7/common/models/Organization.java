@@ -9,7 +9,7 @@ public class Organization implements Comparable<Organization>, Serializable {
     private final Integer annualTurnover;
     private final Long employeesCount;
     private final Address postalAddress;
-    private int creatorId;
+    private long creatorId;
 
     public Organization(String fullName, Integer annualTurnover, Long employeesCount, Address postalAddress) {
         this.fullName = fullName;
@@ -27,7 +27,7 @@ public class Organization implements Comparable<Organization>, Serializable {
         this.id = id;
     }
 
-    public int getCreatorId() {
+    public long getCreatorId() {
         return creatorId;
     }
 
@@ -50,7 +50,7 @@ public class Organization implements Comparable<Organization>, Serializable {
 
     @Override
     public String toString() {
-        return this.fullName + "(annual_turnover=" + this.annualTurnover + "; employee_count=" + this.employeesCount +
+        return this.fullName + " (annual_turnover=" + this.annualTurnover + "; employee_count=" + this.employeesCount +
                "; postal_address=" + this.postalAddress + ")";
     }
 

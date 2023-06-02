@@ -1,7 +1,7 @@
 package me.lab7.common.models;
 
 public class User {
-    private int id;
+    private long id;
     private final String name;
     private final String password;
 
@@ -10,7 +10,7 @@ public class User {
         this.password = password;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -18,15 +18,16 @@ public class Insert implements Command {
 
     @Override
     public Response execute(Object arg) {
-       try {
-           Long id = workerDatabaseManager.addWorker(user, worker);
-           worker.setId(id);
-           worker.setCreatorId(user.getId());
-           worker.getOrganization().setCreatorId(user.getId());
-           return new Response(collectionManager.add(worker));
-       } catch (SQLException e) {
-           return new Response("There was an error inserting worker.");
-       }
+//       try {
+//           Long id = workerDatabaseManager.addWorker(user, worker);
+//           worker.setId(id);
+//           worker.setCreatorId(user.getId());
+//           worker.getOrganization().setCreatorId(user.getId());
+//           return new Response(collectionManager.add(worker));
+//       } catch (SQLException e) {
+//           return new Response("There was an error inserting worker.");
+//       }
+        return null;
     }
 
     @Override
