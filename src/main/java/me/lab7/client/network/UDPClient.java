@@ -22,8 +22,8 @@ import java.util.List;
 
 public class UDPClient {
 
-    private final static int packageSize = (int) Math.pow(2, 14);
-    private final static int dataSize = (int) Math.pow(2, 14) - 1;
+    private final static int packageSize = (int) Math.pow(2, 12);
+    private final static int dataSize = (int) Math.pow(2, 12) - 1;
     private final DatagramChannel client;
     private final InetSocketAddress addr;
 
@@ -93,7 +93,7 @@ public class UDPClient {
         int totalChunks = Integer.MAX_VALUE;
         int chunkCount = 0;
         do {
-            if (chunks.stream().mapToInt(b -> b.length).sum() > 262000) {
+            if (chunks.stream().mapToInt(b -> b.length).sum() > 131000) {
                 throw new TooBigDataException();
             }
             byte[] chunk = receivePacket();

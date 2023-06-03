@@ -160,7 +160,7 @@ public class Worker implements Comparable<Worker>, Serializable {
                   ", employee count: " + organization.getEmployeesCount() + ", postal address: " +
                   organization.getPostalAddress() + ")";
         }
-        return one + two;
+        return one + two + "\nCreated by " + creatorName +"\n";
     }
 
     /**

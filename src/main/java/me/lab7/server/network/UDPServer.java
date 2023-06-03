@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class UDPServer {
 
-    private final static int packageSize = (int) Math.pow(2, 14);
-    private final static int dataSize = (int) Math.pow(2, 14) - 2;
+    private final static int packageSize = (int) Math.pow(2, 12);
+    private final static int dataSize = (int) Math.pow(2, 12) - 2;
     private final DatagramSocket socket;
     private final InetSocketAddress address;
     private final CommandManager commandManager;

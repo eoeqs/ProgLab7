@@ -6,6 +6,7 @@ import me.lab7.server.managers.FileManager;
 import me.lab7.server.managers.databaseManagers.ConnectionManager;
 import me.lab7.server.managers.databaseManagers.WorkerDatabaseManager;
 import me.lab7.server.network.UDPServer;
+import me.lab7.server.sql.DDLManager;
 
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -47,6 +48,8 @@ public class ServerMain {
                 Configuration.getDbLogin(),
                 Configuration.getDbPass()
         );
+        DDLManager ddlManager = new DDLManager(connectionManager);
+        ddlManager.createTables();
         WorkerDatabaseManager workerDatabaseManager = new WorkerDatabaseManager(connectionManager);
         try {
             return new CollectionManager(workerDatabaseManager);

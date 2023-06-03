@@ -208,11 +208,13 @@ public class Console {
         try {
             return getAuthResponse(request);
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println(Messages.tryingAgain());
             try {
                 Thread.sleep(1500);
                 return getAuthResponse(request);
             } catch (IOException ex) {
+                ex.printStackTrace();
                 System.out.println(Messages.serverCommunicationError());
             } catch (InterruptedException ignored) {
             }

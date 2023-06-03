@@ -25,7 +25,7 @@ create table if not exists organizations (
     o_id bigserial primary key,
     o_full_name text not null,
     o_annual_turnover int not null constraint positive_annual_turnover check (o_annual_turnover > 0),
-    o_employees_count bigint not null constraint positive_employees_count check (o_employees_count > 0),
+    o_employee_count bigint not null constraint positive_employees_count check (o_employee_count > 0),
     o_address_id bigint references addresses(a_id) on delete cascade,
     o_creator_id bigint not null references users(u_id) on delete cascade
 
