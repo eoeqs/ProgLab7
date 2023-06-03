@@ -113,9 +113,8 @@ public class RequestManager implements Runnable {
         logger.info("Processing " + request + " from " + address);
         Response response = null;
         try {
-//            ForkJoinPool forkJoinPool = new ForkJoinPool();
-//            response = forkJoinPool.invoke(new CommandTask(request, commandManager));
-            response = new CommandTask(request, commandManager).compute();
+            ForkJoinPool forkJoinPool = new ForkJoinPool();
+            response = forkJoinPool.invoke(new CommandTask(request, commandManager));
         } catch (Exception e) {
             logger.error("Failed to execute command: " + e.getMessage());
         }
