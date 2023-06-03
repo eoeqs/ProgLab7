@@ -8,8 +8,7 @@ import me.lab7.common.network.Request;
 import me.lab7.common.network.Response;
 import me.lab7.common.utility.ChunkOrganizer;
 import me.lab7.server.managers.CommandManager;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.SerializationException;
+import me.lab7.server.managers.MultiThreadingManager;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -21,7 +20,6 @@ import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
 public class RequestManager implements Runnable {
@@ -30,11 +28,12 @@ public class RequestManager implements Runnable {
     private final int packageSize;
     private final int dataSize;
     private final CommandManager commandManager;
+    private static ForkJoinPool forkJoinPool;
     private static final Logger logger = (Logger) LoggerFactory.getLogger(RequestManager.class);
 
     public RequestManager(DatagramSocket socket, int packageSize, int dataSize, CommandManager commandManager) {
         this.socket = socket;
-        this. packageSize = packageSize;
+        this.packageSize = packageSize;
         this.dataSize = dataSize;
         this.commandManager = commandManager;
     }
@@ -113,7 +112,6 @@ public class RequestManager implements Runnable {
         logger.info("Processing " + request + " from " + address);
         Response response = null;
         try {
-            ForkJoinPool forkJoinPool = new ForkJoinPool();
             response = forkJoinPool.invoke(new CommandTask(request, commandManager));
         } catch (Exception e) {
             logger.error("Failed to execute command: " + e.getMessage());
@@ -125,7 +123,7 @@ public class RequestManager implements Runnable {
         logger.info("Processing " + request + " from " + address);
         AuthResponse response = null;
         try {
-            ForkJoinPool forkJoinPool = new ForkJoinPool();
+
             response = forkJoinPool.invoke(new AuthTask(request));
         } catch (Exception e) {
             logger.error("Failed to authorize: " + e.getMessage());
@@ -134,6 +132,7 @@ public class RequestManager implements Runnable {
     }
 
     private void sendData(byte[] data, SocketAddress address) {
+
         byte[][] chunks = ChunkOrganizer.divideIntoChunks(data, dataSize);
         logger.info("Sending " + chunks.length + " chunks...");
         for (int i = 0; i < chunks.length; i++) {
@@ -144,13 +143,17 @@ public class RequestManager implements Runnable {
             }
             chunks[i] = numberedChunk;
         }
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        for (byte[] chunk : chunks) {
-            DatagramPacket packet = new DatagramPacket(chunk, chunk.length, address);
-            executorService.execute(new Sender(socket, packet));
-            logger.info("Chunk of size " + chunk.length + " has been sent to server.");
-        }
-        executorService.shutdown();
-        logger.info("Finished sending chunks.");
+
+
+        ExecutorService executorService = MultiThreadingManager.getResponseThreadPool();
+        executorService.submit(() -> {
+               for (byte[] chunk : chunks) {
+                   DatagramPacket packet = new DatagramPacket(chunk, chunk.length, address);
+                   executorService.execute(new Sender(socket, packet));
+                   logger.info("Chunk of size " + chunk.length + " has been sent to server.");
+               }
+               executorService.shutdown();
+               logger.info("Finished sending chunks.");
+        });
     }
 }
