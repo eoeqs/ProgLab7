@@ -12,7 +12,6 @@ import java.util.Map;
 public class WorkerDatabaseManager {
 
     private final ConnectionManager connectionManager;
-    private final UserDatabaseManager
 
     public WorkerDatabaseManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -42,7 +41,8 @@ public class WorkerDatabaseManager {
                 values (?, ?, ?)
                 returning a_id
                 """);
-        statement.setString(1, address.getStreet());
+
+        statement.setString(1, address == null ? null : address.getStreet());
         statement.setString(2, address.getZipCode());
         statement.setLong(3, creatorId);
         ResultSet resultSet = statement.executeQuery();
@@ -68,17 +68,24 @@ public class WorkerDatabaseManager {
         return resultSet.getLong(1);
     }
 
-    public void insertWorker(Worker worker, long creatorId) throws SQLException {
+    public long insertWorker(Worker worker) throws SQLException {
         Connection connection = getConnection();
+        long creatorId = getIdByUsername(connection, worker.getCreatorName());
+        long id = insertWorker(connection, worker, creatorId);
+        connection.close();
+        return id;
+    }
+
+    private long insertWorker(Connection connection, Worker worker, long creatorId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("""
                 insert into workers (w_name, w_coordinates_id, w_creation_date, w_salary, w_start_date,
                 w_pos, w_status, w_organization_id, w_creator_id)
                 values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                returning w_id
                 """);
         Coordinates coordinates = worker.getCoordinates();
         long coordinatesId = insertCoordinates(connection, coordinates, creatorId);
         Organization organization = worker.getOrganization();
-        long organizationId = insertOrganization(connection, organization, creatorId);
         statement.setString(1, worker.getName());
         statement.setLong(2, coordinatesId);
         statement.setDate(3, Date.valueOf(worker.getCreationDate()));
@@ -88,31 +95,36 @@ public class WorkerDatabaseManager {
         statement.setString(6, position);
         String status = worker.getStatus() == null ? null : String.valueOf(worker.getStatus());
         statement.setString(7, status);
-        statement.setLong(8, organizationId);
+        if (organization == null) {
+            statement.setNull(8, Types.BIGINT);
+        } else {
+            statement.setLong(8, insertOrganization(connection, organization, creatorId));
+        }
         statement.setLong(9, creatorId);
-        statement.execute();
-        connection.close();
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getLong(1);
     }
 
     public Map<Long, Worker> getAllWorkers() throws SQLException {
         Connection connection = getConnection();
         PreparedStatement statement = connection.prepareStatement("""
                 select * from workers w
-                left join coordinates c on w.w_coordinates_id = c.c_id
-                left join organizations o on w.w_organization_id = o.o_id
-                left join addresses a on o.o_address_id = a.a_id;
+                left join coordinates c on w_coordinates_id = c_id
+                left join organizations o on w_organization_id = o_id
+                left join addresses a on o_address_id = a_id;
                 """);
         ResultSet resultSet = statement.executeQuery();
-        connection.close();
         Map<Long, Worker> workerMap = new HashMap<>();
         while (resultSet.next()) {
-            Worker worker = assembleWorker(resultSet);
+            Worker worker = assembleWorker(connection, resultSet);
             workerMap.put(worker.getId(), worker);
         }
+        connection.close();
         return workerMap;
     }
 
-    private Worker assembleWorker(ResultSet resultSet) throws SQLException {
+    private Worker assembleWorker(Connection connection, ResultSet resultSet) throws SQLException {
         long id = resultSet.getLong("w_id");
         String name = resultSet.getString("w_name");
         double x = resultSet.getDouble("c_x");
@@ -138,8 +150,30 @@ public class WorkerDatabaseManager {
             organization = null;
         }
         long creatorId = resultSet.getLong("w_creator_id");
+        String creator = getUsernameById(connection, creatorId);
+        return new Worker(id, name, coordinates, creationDate, salary, startDate, position, status, organization, creator);
+    }
 
-        return new Worker(id, name, coordinates, creationDate, salary, startDate, position, status, organization, creatorId);
+    private String getUsernameById(Connection connection, long id) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                select u_name from users
+                where u_id = ?
+                """);
+        statement.setLong(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getString(1);
+    }
+
+    private long getIdByUsername(Connection connection, String username) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("""
+                select u_id from users
+                where u_name = ?
+                """);
+        statement.setString(1, username);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        return resultSet.getLong(1);
     }
 
     private void deleteWorker(Connection connection, long id) throws SQLException {
@@ -175,26 +209,19 @@ public class WorkerDatabaseManager {
         }
     }
 
-    public void deleteWorker(long id) throws SQLException {
+    public void deleteWorker(List<Long> ids) throws SQLException {
         Connection connection = getConnection();
-        deleteWorker(connection, id);
-    }
-
-    public void deleteLowerWorkers(long id, long creatorId) throws SQLException {
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement("""
-                select w_id from workers
-                where w_id < ? and w_creator_id = ?
-                """);
-        statement.setLong(1, id);
-        statement.setLong(2, creatorId);
-        ResultSet resultSet = statement.executeQuery();
-        deleteWorker(connection, getIdList(resultSet));
+        deleteWorker(connection, ids);
         connection.close();
     }
 
-    public void deleteOwnedWorkers(long creatorId) throws SQLException {
+    public void deleteWorker(long id) throws SQLException {
         Connection connection = getConnection();
+        deleteWorker(connection, id);
+        connection.close();
+    }
+
+    private void deleteOwnedWorkers(Connection connection, long creatorId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("""
                 select w_id from workers
                 where w_creator_id = ?
@@ -202,6 +229,13 @@ public class WorkerDatabaseManager {
         statement.setLong(1, creatorId);
         ResultSet resultSet = statement.executeQuery();
         deleteWorker(connection, getIdList(resultSet));
+        connection.close();
+    }
+
+    public void deleteOwnedWorkers(String username) throws SQLException {
+        Connection connection = getConnection();
+        long creatorId = getIdByUsername(connection, username);
+        deleteOwnedWorkers(connection, creatorId);
         connection.close();
     }
 

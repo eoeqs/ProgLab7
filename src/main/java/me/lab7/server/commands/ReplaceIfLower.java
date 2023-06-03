@@ -1,6 +1,7 @@
 package me.lab7.server.commands;
 
 
+import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 
 import me.lab7.common.models.Worker;
@@ -14,16 +15,25 @@ public class ReplaceIfLower implements Command {
     }
 
     @Override
-    public Response execute(Object arg) {
+    public Response execute(Object arg, User user) {
         Worker newWorker = (Worker) arg;
-        long key = newWorker.getId();
-        if (!collectionManager.workerMap().containsKey(key)) {
-            return new Response("The collection doesn't contain an element with key = " + key + ".\n");
-        }
-        if (collectionManager.workerMap().get(key).compareTo(newWorker) > 0) {
-            return new Response(collectionManager.replace(newWorker));
-        } else {
-            return new Response("Described element is equal to or greater than the current one.\n");
+        long id = newWorker.getId();
+        switch (collectionManager.replaceIfLower(id, newWorker)) {
+            case 1 -> {
+                return new Response("There is no element with id = " + id + " in the collection.");
+            }
+            case 2 -> {
+                return new Response("You don't own this worker, thus you can't replace it.");
+            }
+            case 3 -> {
+                return new Response("The described worker is greater or equal to the current one.");
+            }
+            case 4 -> {
+                return new Response("There was a SQL error on the server. Element wasn't replaced.");
+            }
+            default -> {
+                return new Response("The element with id = " + id + " was replaced with a new one:\n" + newWorker +"\n");
+            }
         }
     }
 
@@ -39,8 +49,7 @@ public class ReplaceIfLower implements Command {
 
     @Override
     public String desc() {
-        return "replace an element with the given key if the newly described element is lower than the current";
+        return "replace an element with the given id if the newly described element is lower than the current";
     }
-
 
 }

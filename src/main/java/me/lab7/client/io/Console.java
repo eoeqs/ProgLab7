@@ -5,6 +5,7 @@ import me.lab7.client.network.UDPClient;
 import me.lab7.client.utility.ScriptValidator;
 import me.lab7.client.exceptions.InvalidScriptException;
 import me.lab7.client.exceptions.ScriptRecursionException;
+import me.lab7.common.models.User;
 import me.lab7.common.network.AuthRequest;
 import me.lab7.common.network.AuthResponse;
 import me.lab7.common.network.Request;
@@ -24,6 +25,7 @@ public class Console {
     private final Scanner scanner = new Scanner(System.in);
     private final UDPClient client;
     private final EntityConstructor constructor;
+    private static User user;
 
     public Console(UDPClient client) {
         this.client = client;
@@ -62,7 +64,8 @@ public class Console {
                 if (input.length != 2) {
                     System.out.println("Please, enter only your username and password as a single string.");
                 } else {
-                    AuthResponse response = tryToAuthorize(true, input[0], input[1]);
+                    user = new User(input[0], input[1]);
+                    AuthResponse response = tryToAuthorize(true, user);
                     if (response == null) {
                         return false;
                     } else {
@@ -95,7 +98,8 @@ public class Console {
                         if (!Pattern.matches(regex, password)) {
                             System.out.println("Your password doesn't meet the requirements. Please, use another.");
                         } else {
-                            AuthResponse response = tryToAuthorize(false, input[0], input[1]);
+                            user = new User(input[0], input[1]);
+                            AuthResponse response = tryToAuthorize(false, user);
                             if (response == null) {
                                 return false;
                             } else {
@@ -137,7 +141,7 @@ public class Console {
                 if (input[0].equalsIgnoreCase("insert") || input[0].equalsIgnoreCase("replace_if_lower")
                         || input[0].equalsIgnoreCase("update")) {
                     try {
-                        Worker worker = constructor.constructWorker(Long.parseLong(input[1]));
+                        Worker worker = constructor.constructWorker(Long.parseLong(input[1]), user.name());
                         response = tryToProcess(input[0], worker);
                     } catch (NoSuchElementException e) {
                         System.out.println("Worker description process was canceled.\n");
@@ -196,11 +200,11 @@ public class Console {
     }
 
     private Response getResponseForRequest(String command, Object argument) throws IOException {
-        return client.communicateWithServer(new Request(command, argument));
+        return client.communicateWithServer(new Request(command, argument, user));
     }
 
-    private AuthResponse tryToAuthorize(boolean logInOrRegister, String username, String password) {
-        AuthRequest request = new AuthRequest(logInOrRegister, username, password);
+    private AuthResponse tryToAuthorize(boolean logInOrRegister, User user) {
+        AuthRequest request = new AuthRequest(logInOrRegister, user);
         try {
             return getAuthResponse(request);
         } catch (IOException e) {

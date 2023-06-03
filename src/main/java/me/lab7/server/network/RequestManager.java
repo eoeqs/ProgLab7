@@ -51,7 +51,7 @@ public class RequestManager implements Runnable {
                     Response response = handleCommandRequest(request, address);
                     if (response == null) {
                         logger.error("Failed to process the request on the server.");
-                        response = new Response("There was an error while processing the request. Please, try again.");
+                        response = new Response("There was an error while processing the request on the server. Please, try again.");
                     }
                     byte[] responseData;
                     try {
@@ -113,8 +113,9 @@ public class RequestManager implements Runnable {
         logger.info("Processing " + request + " from " + address);
         Response response = null;
         try {
-            ForkJoinPool forkJoinPool = new ForkJoinPool();
-            response = forkJoinPool.invoke(new CommandTask(request, commandManager));
+//            ForkJoinPool forkJoinPool = new ForkJoinPool();
+//            response = forkJoinPool.invoke(new CommandTask(request, commandManager));
+            response = new CommandTask(request, commandManager).compute();
         } catch (Exception e) {
             logger.error("Failed to execute command: " + e.getMessage());
         }

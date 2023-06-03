@@ -1,6 +1,7 @@
 package me.lab7.server.commands;
 
 
+import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 
 import java.util.List;
@@ -24,10 +25,11 @@ public class History implements Command {
     /**
      * Executes the command by printing out the last 6 executed commands.
      *
-     * @param arg the command argument (not used in this command)
+     * @param arg  the command argument (not used in this command)
+     * @param user
      */
     @Override
-    public Response execute(Object arg) {
+    public Response execute(Object arg, User user) {
         if (history.size() == 0) {
             return new Response("History is yet empty.\n");
         }

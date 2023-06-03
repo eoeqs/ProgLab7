@@ -4,30 +4,30 @@ import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
-import me.lab7.server.managers.databaseManagers.WorkerDatabaseManager;
-
-import java.sql.SQLException;
 
 public class Insert implements Command {
-    private WorkerDatabaseManager workerDatabaseManager;
-    private User user;
-    private Worker worker;
-    private CollectionManager collectionManager;
-    public Insert() {
+    private final CollectionManager collectionManager;
+
+    public Insert(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
 
     @Override
-    public Response execute(Object arg) {
-//       try {
-//           Long id = workerDatabaseManager.addWorker(user, worker);
-//           worker.setId(id);
-//           worker.setCreatorId(user.getId());
-//           worker.getOrganization().setCreatorId(user.getId());
-//           return new Response(collectionManager.add(worker));
-//       } catch (SQLException e) {
-//           return new Response("There was an error inserting worker.");
-//       }
-        return null;
+    public Response execute(Object arg, User user) {
+        Worker worker = (Worker) arg;
+        long key = worker.getId();
+        switch (collectionManager.insert(key, worker)) {
+            case 1 -> {
+                return new Response("A worker with key = " + key + " already exists.");
+            }
+            case 2 -> {
+                return new Response("There was a SQL error on the server. An element wasn't inserted.");
+            }
+            default -> {
+                return new Response("The following element was inserted into the collection under the key = " + key +
+                        ":\n" + worker + "\n");
+            }
+        }
     }
 
     @Override

@@ -1,7 +1,5 @@
 package me.lab7.server;
 
-import me.lab7.common.models.Worker;
-
 import me.lab7.server.managers.CollectionManager;
 import me.lab7.server.managers.CommandManager;
 import me.lab7.server.managers.FileManager;
@@ -13,7 +11,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 public class ServerMain {
     private final static int port = 5928;
@@ -21,25 +18,9 @@ public class ServerMain {
     public static void main(String[] args) {
         try {
             getCredentials();
-            prepareAndStart(new HashMap<>());
+            startServer(initializeDB());
         } catch (Exception e) {
             System.out.println("Shutting down...");
-        }
-    }
-
-    private static void startDB() {
-        ConnectionManager connectionManager = new ConnectionManager(
-                Configuration.getDbUrl(),
-                Configuration.getDbLogin(),
-                Configuration.getDbPass()
-        );
-        WorkerDatabaseManager databaseManager = new WorkerDatabaseManager(connectionManager);
-        HashMap<Long, Worker> workerMap = null;
-        try {
-            workerMap = (HashMap<Long, Worker>) databaseManager.getAllWorkers();
-        } catch (SQLException e) {
-            System.out.println("Failed to read collection from database.");
-            System.exit(1);
         }
     }
 
@@ -60,10 +41,23 @@ public class ServerMain {
         Configuration.setDbPass(strings[2].trim());
     }
 
-    private static void prepareAndStart(HashMap<Long, Worker> workerMap) {
-        CollectionManager collectionManager = new CollectionManager(workerMap);
+    private static CollectionManager initializeDB() throws Exception {
+        ConnectionManager connectionManager = new ConnectionManager(
+                Configuration.getDbUrl(),
+                Configuration.getDbLogin(),
+                Configuration.getDbPass()
+        );
+        WorkerDatabaseManager workerDatabaseManager = new WorkerDatabaseManager(connectionManager);
+        try {
+            return new CollectionManager(workerDatabaseManager);
+        } catch (SQLException e) {
+            System.out.println("Failed to read collection from database.");
+            throw new Exception(e);
+        }
+    }
+
+    private static void startServer(CollectionManager collectionManager) {
         CommandManager commandManager = new CommandManager(collectionManager);
-        startDB();
         try {
             UDPServer server = new UDPServer(InetAddress.getLocalHost(), port, commandManager);
             Runtime.getRuntime().addShutdownHook(new Thread(UDPServer::shutdown));
@@ -72,4 +66,5 @@ public class ServerMain {
             System.out.println("Failed to launch the server using local host.\n");
         }
     }
+
 }

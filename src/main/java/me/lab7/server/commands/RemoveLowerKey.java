@@ -1,7 +1,11 @@
 package me.lab7.server.commands;
 
+import me.lab7.common.models.User;
+import me.lab7.common.models.Worker;
 import me.lab7.common.network.Response;
 import me.lab7.server.managers.CollectionManager;
+
+import java.util.List;
 
 /**
  * A command that removes all elements from the collection with the key less than the specified one.
@@ -22,19 +26,26 @@ public class RemoveLowerKey implements Command {
     /**
      * Executes the RemoveLowerKey command. Removes all elements from the collection with the key less than the specified one.
      *
-     * @param arg the argument of the command (key of the element to be removed)
+     * @param arg  the argument of the command (key of the element to be removed)
+     * @param user
      */
     @Override
-    public Response execute(Object arg) {
-        if (collectionManager.workerMap().isEmpty()) {
+    public Response execute(Object arg, User user) {
+        List<Worker> workers = collectionManager.getWorkers();
+        if (workers.isEmpty()) {
             return new Response("This collection is empty.\n");
         }
-        Long key = Long.parseLong((String) arg);
-        int count = collectionManager.workerMap().size();
-        collectionManager.workerMap().entrySet().removeIf(entry -> entry.getKey() < key);
-        count -= collectionManager.workerMap().size();
-        return new Response(count + " elements were removed from the collection.\n");
-
+        long key = Long.parseLong((String) arg);
+        int previousCount = workers.size();
+        if (collectionManager.removeLowerKey(key, user.name()) != 0) {
+            return new Response("There was a SQL error on the server. Elements weren't removed.");
+        }
+        int currentCount = collectionManager.getWorkers().size();
+        if (previousCount == currentCount) {
+            return new Response("No elements were removed. Possibly, you don't own any elements with key lower than "
+                    + key + " or there are no elements among yours with key lower than " + key + ".\n");
+        }
+        return new Response(previousCount - currentCount + " element(s) were removed.\n");
     }
 
     /**

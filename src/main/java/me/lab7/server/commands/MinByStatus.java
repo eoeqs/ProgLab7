@@ -1,6 +1,7 @@
 package me.lab7.server.commands;
 
 
+import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 import me.lab7.common.models.Status;
 import me.lab7.common.models.Worker;
@@ -27,12 +28,13 @@ public class MinByStatus implements Command {
     /**
      * Executes the MinByStatus command by printing out all elements with the lowest status value.
      *
-     * @param arg a string argument that is not used in this command
+     * @param arg  a string argument that is not used in this command
+     * @param user
      */
     @Override
-    public Response execute(Object arg) {
+    public Response execute(Object arg, User user) {
         Status minStatus = Status.minStatus();
-        List<Worker> filtered = collectionManager.workerMap().values()
+        List<Worker> filtered = collectionManager.getWorkers()
                 .stream().filter(w -> w.getStatus() == minStatus).toList();
         StringBuilder sb = new StringBuilder("The minimal Status value is ").append(minStatus).append("\n");
         if (filtered.size() == 0) {

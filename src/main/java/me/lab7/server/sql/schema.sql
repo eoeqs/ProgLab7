@@ -1,13 +1,5 @@
 begin;
 
-create type status as enum (
-    'FIRED', 'HIRED', 'RECOMMENDED_FOR_PROMOTION', 'REGULAR'
-);
-
-create type pos as enum (
-    'HEAD_OF_DEPARTMENT', 'DEVELOPER', 'MANAGER_OF_CLEANING'
-);
-
 create table if not exists users (
     u_id bigserial primary key,
     u_name varchar(64) unique not null,
@@ -46,8 +38,8 @@ create table if not exists workers (
     w_creation_date timestamp default now() not null,
     w_salary int constraint positive_salary check (w_salary > 0),
     w_start_date timestamp not null constraint start_after_creation check (workers.w_start_date >= w_creation_date),
-    w_pos pos,
-    w_status status,
+    w_pos text,
+    w_status text,
     w_organization_id bigint references organizations(o_id) on delete cascade,
     w_creator_id bigint not null references users(u_id) on delete cascade
 );

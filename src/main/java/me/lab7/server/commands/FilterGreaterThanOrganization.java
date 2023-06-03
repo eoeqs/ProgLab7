@@ -1,5 +1,6 @@
 package me.lab7.server.commands;
 
+import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 import me.lab7.common.models.Organization;
 import me.lab7.common.models.Worker;
@@ -26,12 +27,13 @@ public class FilterGreaterThanOrganization implements Command {
      * If there are no elements that match the criteria, prints out a message indicating that the collection does not contain such elements.
      * Prompts the user to enter the details of the target organization.
      *
-     * @param arg the arguments for the command (not used in this command)
+     * @param arg  the arguments for the command (not used in this command)
+     * @param user
      */
     @Override
-    public Response execute(Object arg) {
+    public Response execute(Object arg, User user) {
         Organization organization = (Organization) arg;
-        List<Worker> filtered = collectionManager.workerMap().values()
+        List<Worker> filtered = collectionManager.getWorkers()
                 .stream().filter(w -> w.getOrganization().compareTo(organization) > 0).toList();
         if (filtered.size() == 0) {
             return new Response("The collection doesn't contain elements with organization value greater than given.\n");

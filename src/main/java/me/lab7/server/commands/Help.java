@@ -1,6 +1,7 @@
 package me.lab7.server.commands;
 
 
+import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 
 import java.util.ArrayList;
@@ -25,10 +26,11 @@ public class Help implements Command {
     /**
      * Prints out the list of available commands with their descriptions.
      *
-     * @param arg the argument for the command (not used in this case).
+     * @param arg  the argument for the command (not used in this case).
+     * @param user
      */
     @Override
-    public Response execute(Object arg) {
+    public Response execute(Object arg, User user) {
 
         StringBuilder sb = new StringBuilder(name()).append(" - ").append(desc()).append("\n");
         commands.forEach(c -> {

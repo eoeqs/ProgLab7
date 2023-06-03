@@ -1,11 +1,12 @@
 package me.lab7.server.commands;
 
 
+import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Command to print out all elements of the collection.
@@ -27,11 +28,12 @@ public class Show implements Command {
     /**
      * Get the name of the command.
      *
-     * @param arg the argument of the command
+     * @param arg  the argument of the command
+     * @param user
      */
     @Override
-    public Response execute(Object arg) {
-        Collection<Worker> workers = collectionManager.workerMap().values();
+    public Response execute(Object arg, User user) {
+        List<Worker> workers = collectionManager.getWorkers();
         if (workers.size() == 0) {
             return new Response("This collection is empty.\n");
         }

@@ -1,5 +1,6 @@
 package me.lab7.server.commands;
 
+import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 import me.lab7.common.utility.Messages;
 
@@ -10,7 +11,7 @@ import me.lab7.common.utility.Messages;
 public class Exit implements Command {
 
     @Override
-    public Response execute(Object argument) {
+    public Response execute(Object argument, User user) {
         return new Response(Messages.goodbye());
     }
 

@@ -1,6 +1,7 @@
 package me.lab7.server.commands;
 
 
+import me.lab7.common.models.User;
 import me.lab7.common.network.Response;
 import me.lab7.server.managers.CollectionManager;
 
@@ -23,16 +24,25 @@ public class RemoveKey implements Command {
     /**
      * Executes the RemoveKey command by removing the element with the given key from the collection.
      *
-     * @param arg the key of the element to remove from the collection
+     * @param arg  the key of the element to remove from the collection
+     * @param user
      */
     @Override
-    public Response execute(Object arg) {
+    public Response execute(Object arg, User user) {
         long key = Long.parseLong((String) arg);
-        if (collectionManager.workerMap().containsKey(key)) {
-            collectionManager.workerMap().entrySet().removeIf(w -> w.getKey() == key);
-            return new Response("Collection element with key " + key + " has been successfully deleted.\n");
-        } else {
-            return new Response("The collection doesn't contain an element with key = " + key + ".\n");
+        switch (collectionManager.remove(key, user.name())) {
+            case 1 -> {
+                return new Response("The collection doesn't contain an element with key = " + key + ".\n");
+            }
+            case 2 -> {
+                return new Response("You don't own this worker, thus you can't remove it.");
+            }
+            case 3 -> {
+                return new Response("There was a SQL error on the server. Element wasn't removed.");
+            }
+            default -> {
+                return new Response("Collection element with key " + key + " has been successfully deleted.\n");
+            }
         }
     }
 

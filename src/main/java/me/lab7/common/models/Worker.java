@@ -51,6 +51,10 @@ public class Worker implements Comparable<Worker>, Serializable {
         this.creatorName = creatorName;
     }
 
+    public String getCreatorName() {
+        return creatorName;
+    }
+
     /**
      * Returns the ID of the worker.
      *

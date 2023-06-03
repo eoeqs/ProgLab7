@@ -74,7 +74,7 @@ public class EntityConstructor {
         return new Organization(orgName, annualTurnover, employeeCount, address);
     }
 
-    protected Worker constructWorker(long id) throws NoSuchElementException {
+    protected Worker constructWorker(long id, String username) throws NoSuchElementException {
         String name = getField(new Constraints(DataType.STRING, false, false,
                 "Enter the worker's name:", "wtf",
                 "Worker's name can't be empty."));
@@ -108,8 +108,7 @@ public class EntityConstructor {
         } else {
             organization = constructOrganization();
         }
-        long placeholder = 0;
-        return new Worker(id, name, coordinates, LocalDate.now(), salary, startDate, position, status, organization, placeholder);
+        return new Worker(id, name, coordinates, LocalDate.now(), salary, startDate, position, status, organization, username);
     }
 
 }

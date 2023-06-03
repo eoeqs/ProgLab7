@@ -1,10 +1,8 @@
 package me.lab7.server.managers.databaseManagers;
 
-import ch.qos.logback.classic.Logger;
 import me.lab7.common.models.User;
 import me.lab7.server.ServerUser;
 import me.lab7.server.managers.PasswordManager;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,13 +12,8 @@ import java.sql.SQLException;
 public class UserDatabaseManager {
 
     private final ConnectionManager connectionManager;
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(UserDatabaseManager.class);
 
-    protected UserDatabaseManager(String url, String login, String password) {
-        connectionManager = new ConnectionManager(url, login, password);
-    }
-
-    protected UserDatabaseManager(ConnectionManager connectionManager) {
+    public UserDatabaseManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
 

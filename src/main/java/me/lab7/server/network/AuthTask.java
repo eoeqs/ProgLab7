@@ -17,7 +17,7 @@ public class AuthTask extends RecursiveTask<AuthResponse> {
 
     @Override
     protected AuthResponse compute() {
-        User user = new User(request.username(), request.password());
+        User user = request.user();
         if (request.logInOrRegister()) {
             int result = logIn(user);
             switch (result) {
@@ -31,7 +31,7 @@ public class AuthTask extends RecursiveTask<AuthResponse> {
                     return new AuthResponse(false, "There was an authentication error on the server. Please, try again.");
                 }
                 default -> {
-                    return new AuthResponse(true, "Successfully logged in. Welcome, " + request.username() + "!");
+                    return new AuthResponse(true, "Successfully logged in. Welcome, " + user.name() + "!");
                 }
             }
         } else {
@@ -44,7 +44,7 @@ public class AuthTask extends RecursiveTask<AuthResponse> {
                     return new AuthResponse(false, "There was an authentication error on the server. Please, try again.");
                 }
                 default -> {
-                    return new AuthResponse(true, "Successfully registered. Welcome, " + request.username() + "!");
+                    return new AuthResponse(true, "Successfully registered. Welcome, " + user.name() + "!");
                 }
             }
         }

@@ -20,12 +20,12 @@ public class ExecuteScript implements Command {
     }
 
     @Override
-    public Response execute(Object arg) {
+    public Response execute(Object arg, User user) {
         String script = (String) arg;
         Scanner scanner = new Scanner(script);
         StringBuilder sb = new StringBuilder("Executing script.\n");
         while (scanner.hasNextLine()) {
-            Response response = emulateExecution(scanner);
+            Response response = emulateExecution(scanner, user);
             if (response.message() != null) {
                 sb.append(response).append("\n");
             }
@@ -33,7 +33,7 @@ public class ExecuteScript implements Command {
         return new Response(sb.append("Script finished execution.\n").toString());
     }
 
-    private Response emulateExecution(Scanner scanner) {
+    private Response emulateExecution(Scanner scanner, User user) {
         String currentString = scanner.nextLine();
         String[] words = currentString.split("\\s+", 2);
         if (words[0].isBlank()) {
@@ -41,21 +41,21 @@ public class ExecuteScript implements Command {
         }
         if (words[0].equalsIgnoreCase("insert") || words[0].equalsIgnoreCase("update")
                 || words[0].equalsIgnoreCase("replace_if_lower")) {
-            Worker worker = buildWorker(scanner, Long.parseLong(words[1]));
-            return commands.get(words[0]).execute(worker);
+            Worker worker = buildWorker(scanner, Long.parseLong(words[1]), user);
+            return commands.get(words[0]).execute(worker, user);
         } else if (words[0].equalsIgnoreCase("filter_greater_than_organization")) {
             Organization organization = buildOrganization(scanner);
-            return commands.get(words[0]).execute(organization);
+            return commands.get(words[0]).execute(organization, user);
         } else {
             if (words.length > 1) {
-                return commands.get(words[0]).execute(words[1]);
+                return commands.get(words[0]).execute(words[1], user);
             } else {
-                return commands.get(words[0]).execute(null);
+                return commands.get(words[0]).execute(null, user);
             }
         }
     }
 
-    private Worker buildWorker(Scanner scanner, long key) {
+    private Worker buildWorker(Scanner scanner, long key, User user) {
         String name = scanner.nextLine();
         String xStr = scanner.nextLine();
         double x = xStr.isBlank() ? 0 : Double.parseDouble(xStr);
@@ -71,8 +71,7 @@ public class ExecuteScript implements Command {
         if (!scanner.nextLine().isBlank()) {
             org = buildOrganization(scanner);
         }
-        long placeholder = 0;
-        return new Worker(key, name, new Coordinates(x, y), LocalDate.now(), salary, startDate, pos, status, org, placeholder);
+        return new Worker(key, name, new Coordinates(x, y), LocalDate.now(), salary, startDate, pos, status, org, user.name());
     }
 
     private Organization buildOrganization(Scanner scanner) {
