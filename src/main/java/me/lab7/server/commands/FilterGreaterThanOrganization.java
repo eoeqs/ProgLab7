@@ -1,7 +1,7 @@
 package me.lab7.server.commands;
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.models.Organization;
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
@@ -31,16 +31,16 @@ public class FilterGreaterThanOrganization implements Command {
      * @param user
      */
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         Organization organization = (Organization) arg;
         List<Worker> filtered = collectionManager.getWorkers()
                 .stream().filter(w -> w.getOrganization().compareTo(organization) > 0).toList();
         if (filtered.size() == 0) {
-            return new Response("The collection doesn't contain elements with organization value greater than given.\n");
+            return new CommandResponse("The collection doesn't contain elements with organization value greater than given.\n");
         } else {
             StringBuilder sb = new StringBuilder();
             filtered.forEach(worker -> sb.append(worker).append("\n"));
-            return new Response(sb.toString());
+            return new CommandResponse(sb.toString());
         }
     }
 

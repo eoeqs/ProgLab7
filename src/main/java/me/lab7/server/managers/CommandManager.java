@@ -1,8 +1,8 @@
 package me.lab7.server.managers;
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Request;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandRequest;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.server.commands.*;
 
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ import java.util.Map;
 
 public class CommandManager {
     private final Map<String, Command> commandMap;
-    private final List<String> history;
+    private final Map<String, ArrayList<String>> history;
 
     {
-        history = new ArrayList<>();
+        history = new HashMap<>();
     }
 
     public CommandManager(CollectionManager collectionManager) {
@@ -26,7 +26,7 @@ public class CommandManager {
         commandMap.put("update", new Update(collectionManager));
         commandMap.put("remove_key", new RemoveKey(collectionManager));
         commandMap.put("clear", new Clear(collectionManager));
-        commandMap.put("exit", new Exit());
+        commandMap.put("exit", new Exit(history));
         commandMap.put("history", new History(history));
         commandMap.put("replace_if_lower", new ReplaceIfLower(collectionManager));
         commandMap.put("remove_lower_key", new RemoveLowerKey(collectionManager));
@@ -38,17 +38,23 @@ public class CommandManager {
         this.commandMap = commandMap;
     }
 
-    public Response handleRequest(Request request) {
-        return executeCommand(request.command(), request.argument(), request.user());
+    public CommandResponse handleRequest(CommandRequest commandRequest) {
+        return executeCommand(commandRequest.command(), commandRequest.argument(), commandRequest.user());
     }
 
-    public Response executeCommand(String command, Object arg, User user) {
-        Response response = commandMap.get(command).execute(arg, user);
-        history.add(command);
-        if (history.size() > 6) {
-            history.remove(0);
+    public CommandResponse executeCommand(String command, Object arg, User user) {
+        CommandResponse commandResponse = commandMap.get(command).execute(arg, user);
+        List<String> userHistory = history.get(user.name());
+        if (userHistory == null) {
+            history.put(user.name(), new ArrayList<>());
+            history.get(user.name()).add(command);
+        } else {
+            userHistory.add(command);
+            if (userHistory.size() > 6) {
+                userHistory.remove(0);
+            }
         }
-        return response;
+        return commandResponse;
     }
 
 }

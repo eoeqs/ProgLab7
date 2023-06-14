@@ -1,7 +1,7 @@
 package me.lab7.server.managers.databaseManagers;
 
 import me.lab7.common.models.User;
-import me.lab7.server.ServerUser;
+import me.lab7.server.network.ServerUser;
 import me.lab7.server.managers.PasswordManager;
 
 import java.sql.Connection;

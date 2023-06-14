@@ -5,8 +5,8 @@ import me.lab7.client.exceptions.TooBigDataException;
 import me.lab7.common.network.AuthRequest;
 import me.lab7.common.network.AuthResponse;
 import me.lab7.common.utility.ChunkOrganizer;
-import me.lab7.common.network.Request;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandRequest;
+import me.lab7.common.network.CommandResponse;
 import org.apache.commons.lang3.SerializationException;
 import org.apache.commons.lang3.SerializationUtils;
 
@@ -33,19 +33,19 @@ public class UDPClient {
         this.client.configureBlocking(false);
     }
 
-    public Response communicateWithServer(Request request) throws IOException {
+    public CommandResponse communicateWithServer(CommandRequest commandRequest) throws IOException {
         try {
-            byte[] data = SerializationUtils.serialize(request);
+            byte[] data = SerializationUtils.serialize(commandRequest);
             byte[] responseBytes = sendAndReceiveData(data);
             try {
                 return SerializationUtils.deserialize(responseBytes);
             } catch (SerializationException e) {
-                return new Response("The received response is impossible to deserialize. Please, try again.\n");
+                return new CommandResponse("The received response is impossible to deserialize. Please, try again.\n");
             }
         } catch (SerializationException e) {
-            return new Response("This request is impossible to serialize, thus it can't be sent to the server.\n");
+            return new CommandResponse("This request is impossible to serialize, thus it can't be sent to the server.\n");
         } catch (TooBigDataException e) {
-            return new Response("The received response data is too big to deserialize, thus it can't be displayed.\n");
+            return new CommandResponse("The received response data is too big to deserialize, thus it can't be displayed.\n");
         }
     }
 

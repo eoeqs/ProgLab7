@@ -2,7 +2,7 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.server.managers.CollectionManager;
 
 
@@ -23,15 +23,15 @@ public class Clear implements Command {
      * If the collection is already empty, a message is printed to indicate so.
      */
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         if (collectionManager.isEmpty()) {
-            return new Response("The collection is already empty.");
+            return new CommandResponse("The collection is already empty.");
         }
         int result = collectionManager.removeOwned(user.name());
         if (result == 0) {
-            return new Response("Elements owned by you were successfully cleared.");
+            return new CommandResponse("Elements owned by you were successfully cleared.");
         } else {
-            return new Response("There was a SQL error on the server. Elements weren't cleared.");
+            return new CommandResponse("There was a SQL error on the server. Elements weren't cleared.");
         }
     }
 

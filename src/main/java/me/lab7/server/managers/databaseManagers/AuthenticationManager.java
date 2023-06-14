@@ -2,7 +2,7 @@ package me.lab7.server.managers.databaseManagers;
 
 import ch.qos.logback.classic.Logger;
 import me.lab7.common.models.User;
-import me.lab7.server.Configuration;
+import me.lab7.server.utility.Configuration;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;

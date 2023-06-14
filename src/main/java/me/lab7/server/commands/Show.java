@@ -2,7 +2,7 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
 
@@ -32,14 +32,14 @@ public class Show implements Command {
      * @param user
      */
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         List<Worker> workers = collectionManager.getWorkers();
         if (workers.size() == 0) {
-            return new Response("This collection is empty.\n");
+            return new CommandResponse("This collection is empty.\n");
         }
         StringBuilder sb = new StringBuilder();
         workers.forEach(w -> sb.append(w).append("\n"));
-        return new Response(sb.toString());
+        return new CommandResponse(sb.toString());
     }
 
     /**

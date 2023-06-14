@@ -1,7 +1,7 @@
 package me.lab7.server.commands;
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
 
@@ -13,18 +13,18 @@ public class Insert implements Command {
     }
 
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         Worker worker = (Worker) arg;
         long key = worker.getId();
         switch (collectionManager.insert(key, worker)) {
             case 1 -> {
-                return new Response("A worker with key = " + key + " already exists.");
+                return new CommandResponse("A worker with key = " + key + " already exists.");
             }
             case 2 -> {
-                return new Response("There was a SQL error on the server. An element wasn't inserted.");
+                return new CommandResponse("There was a SQL error on the server. An element wasn't inserted.");
             }
             default -> {
-                return new Response("The following element was inserted into the collection under the key = " + key +
+                return new CommandResponse("The following element was inserted into the collection under the key = " + key +
                         ":\n" + worker + "\n");
             }
         }

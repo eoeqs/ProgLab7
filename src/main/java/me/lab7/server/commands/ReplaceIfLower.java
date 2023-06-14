@@ -2,7 +2,7 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
@@ -15,24 +15,24 @@ public class ReplaceIfLower implements Command {
     }
 
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         Worker newWorker = (Worker) arg;
         long id = newWorker.getId();
         switch (collectionManager.replaceIfLower(id, newWorker)) {
             case 1 -> {
-                return new Response("There is no element with id = " + id + " in the collection.");
+                return new CommandResponse("There is no element with id = " + id + " in the collection.");
             }
             case 2 -> {
-                return new Response("You don't own this worker, thus you can't replace it.");
+                return new CommandResponse("You don't own this worker, thus you can't replace it.");
             }
             case 3 -> {
-                return new Response("The described worker is greater or equal to the current one.");
+                return new CommandResponse("The described worker is greater or equal to the current one.");
             }
             case 4 -> {
-                return new Response("There was a SQL error on the server. Element wasn't replaced.");
+                return new CommandResponse("There was a SQL error on the server. Element wasn't replaced.");
             }
             default -> {
-                return new Response("The element with id = " + id + " was replaced with a new one:\n" + newWorker +"\n");
+                return new CommandResponse("The element with id = " + id + " was replaced with a new one:\n" + newWorker +"\n");
             }
         }
     }

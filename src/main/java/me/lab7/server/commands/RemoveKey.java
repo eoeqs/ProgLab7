@@ -2,7 +2,7 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.server.managers.CollectionManager;
 
 /**
@@ -28,20 +28,20 @@ public class RemoveKey implements Command {
      * @param user
      */
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         long key = Long.parseLong((String) arg);
         switch (collectionManager.remove(key, user.name())) {
             case 1 -> {
-                return new Response("The collection doesn't contain an element with key = " + key + ".\n");
+                return new CommandResponse("The collection doesn't contain an element with key = " + key + ".\n");
             }
             case 2 -> {
-                return new Response("You don't own this worker, thus you can't remove it.");
+                return new CommandResponse("You don't own this worker, thus you can't remove it.");
             }
             case 3 -> {
-                return new Response("There was a SQL error on the server. Element wasn't removed.");
+                return new CommandResponse("There was a SQL error on the server. Element wasn't removed.");
             }
             default -> {
-                return new Response("Collection element with key " + key + " has been successfully deleted.\n");
+                return new CommandResponse("Collection element with key " + key + " has been successfully deleted.\n");
             }
         }
     }

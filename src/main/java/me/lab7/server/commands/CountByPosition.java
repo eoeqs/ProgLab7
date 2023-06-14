@@ -1,7 +1,7 @@
 package me.lab7.server.commands;
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.models.Position;
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
@@ -27,15 +27,15 @@ public class CountByPosition implements Command {
      * @param user
      */
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         String argStr = (String) arg;
         Position position = Position.valueOf(argStr.toUpperCase());
         List<Worker> workers = collectionManager.getWorkers();
         int count = workers.stream().filter(w -> w.getPosition() == position).toList().size();
         if (count == 0) {
-            return new Response("The collection doesn't contain elements with such position value.\n");
+            return new CommandResponse("The collection doesn't contain elements with such position value.\n");
         } else {
-            return new Response("The collection contains " + count + " element(s) with position = " + position + ".\n");
+            return new CommandResponse("The collection contains " + count + " element(s) with position = " + position + ".\n");
         }
     }
 

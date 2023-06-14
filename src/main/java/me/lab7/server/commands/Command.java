@@ -2,7 +2,7 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 
 /**
  * The Command interface represents a command that can be executed.
@@ -14,7 +14,7 @@ public interface Command {
      * @param arg  the argument to pass to the command
      * @param user
      */
-    Response execute(Object arg, User user);
+    CommandResponse execute(Object arg, User user);
 
     /**
      * @return the name of the command

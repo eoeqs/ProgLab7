@@ -2,7 +2,7 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
 
@@ -33,7 +33,7 @@ public class Info implements Command {
      * @param user
      */
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         StringBuilder sb = new StringBuilder("The collection of workers is stored in a database.\n");
         sb.append("To receive information and execute operations, a copy of that collection is stored locally on the server in a HashMap.\n");
         List<Worker> workers = collectionManager.getWorkers();
@@ -43,7 +43,7 @@ public class Info implements Command {
             int salarySum = workers.stream().mapToInt(Worker::getSalary).sum();
             sb.append("The sum of all workers' salaries is ").append(salarySum).append("\n");
         }
-        return new Response(sb.toString());
+        return new CommandResponse(sb.toString());
     }
 
     /**

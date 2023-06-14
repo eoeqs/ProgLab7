@@ -8,8 +8,8 @@ import me.lab7.client.exceptions.ScriptRecursionException;
 import me.lab7.common.models.User;
 import me.lab7.common.network.AuthRequest;
 import me.lab7.common.network.AuthResponse;
-import me.lab7.common.network.Request;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandRequest;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.utility.Messages;
 import me.lab7.common.utility.Validator;
 import me.lab7.common.models.Organization;
@@ -137,26 +137,26 @@ public class Console {
             String[] input = inputStr.split("\\s+", 2);
             String validationResult = Validator.validateCommandAndArg(input);
             if (validationResult == null) {
-                Response response = null;
+                CommandResponse commandResponse = null;
                 if (input[0].equalsIgnoreCase("insert") || input[0].equalsIgnoreCase("replace_if_lower")
                         || input[0].equalsIgnoreCase("update")) {
                     try {
                         Worker worker = constructor.constructWorker(Long.parseLong(input[1]), user.name());
-                        response = tryToProcess(input[0], worker);
+                        commandResponse = tryToProcess(input[0], worker);
                     } catch (NoSuchElementException e) {
                         System.out.println("Worker description process was canceled.\n");
                     }
                 } else if (input[0].equalsIgnoreCase("filter_greater_than_organization")) {
                     try {
                         Organization organization = constructor.constructOrganization();
-                        response = tryToProcess(input[0], organization);
+                        commandResponse = tryToProcess(input[0], organization);
                     } catch (NoSuchElementException e) {
                         System.out.println("Organization description process was canceled.");
                     }
                 } else if (input[0].equalsIgnoreCase("execute_script")) {
                     try {
                         String scriptContent = new ScriptValidator(input[1]).getFinalScript();
-                        response = tryToProcess(input[0], scriptContent);
+                        commandResponse = tryToProcess(input[0], scriptContent);
                     } catch (InvalidScriptException e) {
                         System.out.println(Messages.invalidScript());
                     } catch (FileNotFoundException e) {
@@ -166,16 +166,16 @@ public class Console {
                     }
                 } else {
                     if (input.length > 1) {
-                        response = tryToProcess(input[0], input[1]);
+                        commandResponse = tryToProcess(input[0], input[1]);
                     } else {
-                        response = tryToProcess(input[0], null);
+                        commandResponse = tryToProcess(input[0], null);
                     }
                 }
-                if (response != null) {
-                    if (response.message().equals(Messages.goodbye())) {
+                if (commandResponse != null) {
+                    if (commandResponse.message().equals(Messages.goodbye())) {
                         System.exit(0);
                     }
-                    System.out.println(response);
+                    System.out.println(commandResponse);
                 }
             } else {
                 System.out.println(validationResult);
@@ -183,7 +183,7 @@ public class Console {
         }
     }
 
-    private Response tryToProcess(String input, Object arg) {
+    private CommandResponse tryToProcess(String input, Object arg) {
         try {
             return getResponseForRequest(input, arg);
         } catch (IOException e) {
@@ -199,8 +199,8 @@ public class Console {
         return null;
     }
 
-    private Response getResponseForRequest(String command, Object argument) throws IOException {
-        return client.communicateWithServer(new Request(command, argument, user));
+    private CommandResponse getResponseForRequest(String command, Object argument) throws IOException {
+        return client.communicateWithServer(new CommandRequest(command, argument, user));
     }
 
     private AuthResponse tryToAuthorize(boolean logInOrRegister, User user) {

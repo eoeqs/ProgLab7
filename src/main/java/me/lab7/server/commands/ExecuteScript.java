@@ -1,7 +1,7 @@
 package me.lab7.server.commands;
 
 
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.models.*;
 
 import java.time.LocalDate;
@@ -20,24 +20,24 @@ public class ExecuteScript implements Command {
     }
 
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         String script = (String) arg;
         Scanner scanner = new Scanner(script);
         StringBuilder sb = new StringBuilder("Executing script.\n");
         while (scanner.hasNextLine()) {
-            Response response = emulateExecution(scanner, user);
-            if (response.message() != null) {
-                sb.append(response).append("\n");
+            CommandResponse commandResponse = emulateExecution(scanner, user);
+            if (commandResponse.message() != null) {
+                sb.append(commandResponse).append("\n");
             }
         }
-        return new Response(sb.append("Script finished execution.\n").toString());
+        return new CommandResponse(sb.append("Script finished execution.\n").toString());
     }
 
-    private Response emulateExecution(Scanner scanner, User user) {
+    private CommandResponse emulateExecution(Scanner scanner, User user) {
         String currentString = scanner.nextLine();
         String[] words = currentString.split("\\s+", 2);
         if (words[0].isBlank()) {
-            return new Response(null);
+            return new CommandResponse(null);
         }
         if (words[0].equalsIgnoreCase("insert") || words[0].equalsIgnoreCase("update")
                 || words[0].equalsIgnoreCase("replace_if_lower")) {

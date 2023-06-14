@@ -1,8 +1,11 @@
 package me.lab7.server.commands;
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.utility.Messages;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * A command that stops the application without saving.
@@ -10,9 +13,16 @@ import me.lab7.common.utility.Messages;
  */
 public class Exit implements Command {
 
+    private final Map<String, ArrayList<String>> history;
+
+    public Exit(Map<String, ArrayList<String>> history) {
+        this.history = history;
+    }
+
     @Override
-    public Response execute(Object argument, User user) {
-        return new Response(Messages.goodbye());
+    public CommandResponse execute(Object argument, User user) {
+        history.remove(user.name());
+        return new CommandResponse(Messages.goodbye());
     }
 
     /**

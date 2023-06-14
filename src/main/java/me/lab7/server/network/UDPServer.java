@@ -3,6 +3,7 @@ package me.lab7.server.network;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import me.lab7.server.managers.CommandManager;
+import me.lab7.server.network.requestHandlers.RequestReceiver;
 import org.slf4j.LoggerFactory;
 
 import java.net.*;
@@ -29,7 +30,7 @@ public class UDPServer {
     public void start() {
         System.out.println("Server started.");
         logger.info("Server started at " + address);
-        Thread requestThread = new Thread(new RequestManager(socket, packageSize, dataSize, commandManager));
+        Thread requestThread = new Thread(new RequestReceiver(socket, packageSize, dataSize, commandManager));
         requestThread.start();
         while (true) {
             try {

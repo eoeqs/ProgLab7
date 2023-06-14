@@ -2,7 +2,7 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 import me.lab7.common.models.Status;
 import me.lab7.common.models.Worker;
 import me.lab7.server.managers.CollectionManager;
@@ -32,7 +32,7 @@ public class MinByStatus implements Command {
      * @param user
      */
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
         Status minStatus = Status.minStatus();
         List<Worker> filtered = collectionManager.getWorkers()
                 .stream().filter(w -> w.getStatus() == minStatus).toList();
@@ -42,7 +42,7 @@ public class MinByStatus implements Command {
         } else {
             filtered.forEach(w -> sb.append(w).append("\n"));
         }
-        return new Response(sb.toString());
+        return new CommandResponse(sb.toString());
     }
 
     /**

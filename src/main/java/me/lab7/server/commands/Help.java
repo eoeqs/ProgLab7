@@ -2,7 +2,7 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ public class Help implements Command {
      * @param user
      */
     @Override
-    public Response execute(Object arg, User user) {
+    public CommandResponse execute(Object arg, User user) {
 
         StringBuilder sb = new StringBuilder(name()).append(" - ").append(desc()).append("\n");
         commands.forEach(c -> {
@@ -41,7 +41,7 @@ public class Help implements Command {
             sb.append(" - ").append(c.desc()).append("\n");
         });
         sb.append("execute_script {filepath} - execute the sequence of commands from a file\n");
-        return new Response(sb.toString());
+        return new CommandResponse(sb.toString());
     }
 
 

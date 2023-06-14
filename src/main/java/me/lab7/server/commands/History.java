@@ -2,23 +2,24 @@ package me.lab7.server.commands;
 
 
 import me.lab7.common.models.User;
-import me.lab7.common.network.Response;
+import me.lab7.common.network.CommandResponse;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * The {@code History} class implements the {@code Command} interface
  * and represents the command for printing out the 6 last executed commands.
  */
 public class History implements Command {
-    List<String> history;
+
+    private final Map<String, ArrayList<String>> history;
 
     /**
      * Constructs a new {@code History} object with the specified history of commands.
      *
      * @param history the history of commands to be used
      */
-    public History(List<String> history) {
+    public History(Map<String, ArrayList<String>> history) {
         this.history = history;
     }
 
@@ -29,13 +30,14 @@ public class History implements Command {
      * @param user
      */
     @Override
-    public Response execute(Object arg, User user) {
-        if (history.size() == 0) {
-            return new Response("History is yet empty.\n");
+    public CommandResponse execute(Object arg, User user) {
+        List<String> userHistory = history.get(user.name());
+        if (userHistory == null) {
+            return new CommandResponse("History is yet empty.");
         }
         StringBuilder sb = new StringBuilder();
-        history.forEach(s -> sb.append(s).append("\n"));
-        return new Response(sb.toString());
+        userHistory.forEach(s -> sb.append(s).append("\n"));
+        return new CommandResponse(sb.toString());
     }
 
     /**
