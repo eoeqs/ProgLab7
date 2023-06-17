@@ -4,6 +4,7 @@ import me.lab7.common.models.User;
 import me.lab7.server.network.ServerUser;
 import me.lab7.server.managers.PasswordManager;
 
+import javax.sql.RowSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

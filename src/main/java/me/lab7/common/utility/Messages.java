@@ -71,7 +71,7 @@ public class Messages {
         return """
                 Requirements for the password:
                 • 8 to 64 symbols long;
-                • Has to contain at least 1: lowercase latin letter, uppercase latin letter, number,
+                • Has to contain at least 1 of each: lowercase latin letter, uppercase latin letter, number,
                   one of the following symbols - '_', '-', '.';
                 • No other symbols are allowed.""";
     }

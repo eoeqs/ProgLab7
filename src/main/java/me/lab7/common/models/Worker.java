@@ -149,18 +149,18 @@ public class Worker implements Comparable<Worker>, Serializable {
      */
     @Override
     public String toString() {
-        String one = name + " (ID: " + id + ", position: " + position + ", status: " + status + ", salary: " + salary +
+        String one = "\n" + name + " (ID: " + id + ", position: " + position + ", status: " + status + ", salary: " + salary +
                      ", creation date: " + creationDate + ", start date: " + startDate + ", coordinates: " + coordinates +
                      ")\n";
         String two;
-        if (organization == null) {
+        if (organization == null || organization.getFullName() == null) {
             two = "Isn't a member of an organization right now.";
         } else {
             two = "Works at " + organization.getFullName() + " (annual turnover: " + organization.getAnnualTurnover() +
                   ", employee count: " + organization.getEmployeesCount() + ", postal address: " +
                   organization.getPostalAddress() + ")";
         }
-        return one + two + "\nCreated by " + creatorName +"\n";
+        return one + two + "\nCreated by " + creatorName;
     }
 
     /**
